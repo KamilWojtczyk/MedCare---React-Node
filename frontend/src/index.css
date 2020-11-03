@@ -1,0 +1,21 @@
+main {
+  min-height: 80vh;
+}
+
+.navbar-nav .nav-link {
+  color: rgba(0, 0, 0, 1) !important;
+}
+
+.navbar-nav .nav-link:hover {
+  color: #fdcb6e !important;
+}
+
+#topNav {
+  background-color: #efefef;
+}
+
+@media (min-width: 992px) {
+  #hometext {
+    font-size: 4rem;
+  }
+}

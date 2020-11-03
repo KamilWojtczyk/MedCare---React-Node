@@ -1,0 +1,17 @@
+.user-item a {
+  text-decoration: none;
+  text-align: center;
+  padding: 1rem;
+  color: white;
+  background: #292929;
+}
+
+.user-item a:hover,
+.user-item a:active {
+  background: #ffd900;
+}
+
+.user-item-Col:hover,
+.user-item-Col:active {
+  color: #292929;
+}
