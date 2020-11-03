@@ -18,7 +18,7 @@ const UserInfo = ({ match }) => {
     }
 
     fetchUser()
-  }, [match.params.id])
+  }, [match])
   return (
     <>
       <Link className="btn btn-dark my-3" to="/users">
