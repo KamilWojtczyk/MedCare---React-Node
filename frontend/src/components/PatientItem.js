@@ -2,24 +2,24 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card, Row, Col } from "react-bootstrap";
 
-import "./UserItem.css";
+import "./PatientItem.css";
 
-const UserItem = ({ user }) => {
+const PatientItem = ({ patient }) => {
   return (
     <Card className="my-3 p-3 border-dark rounded user-item">
-      <Link to={`/users/${user.id}`}>
+      <Link to={`/patients/${patient._id}`}>
         <Row>
           <Col as="h5" className="user-item-Col">
-            Name: {user.name}
+            Name: {patient.name}
           </Col>
           <Col as="h5" className="user-item-Col">
-            Age: {user.age}
+            Age: {patient.age}
           </Col>
           <Col as="h5" className="user-item-Col">
-            Sex: {user.sex}
+            Sex: {patient.sex}
           </Col>
           <Col as="h5" className="user-item-Col">
-            Birth: {user.birth}
+            Birth: {patient.birth}
           </Col>
         </Row>
       </Link>
@@ -27,4 +27,4 @@ const UserItem = ({ user }) => {
   );
 };
 
-export default UserItem;
+export default PatientItem;

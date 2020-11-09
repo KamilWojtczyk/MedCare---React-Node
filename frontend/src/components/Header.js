@@ -13,10 +13,10 @@ function Header() {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              <LinkContainer to="/users">
+              <LinkContainer to="/patients">
                 <Nav.Link>ALL PATIENTS</Nav.Link>
               </LinkContainer>
-              <LinkContainer to="/user/new">
+              <LinkContainer to="/patient/new">
                 <Nav.Link>ADD PATIENT</Nav.Link>
               </LinkContainer>
             </Nav>
