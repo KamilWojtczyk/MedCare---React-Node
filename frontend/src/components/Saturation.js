@@ -4,12 +4,12 @@ import { Row, Col } from "react-bootstrap";
 const Saturation = ({ saturation }) => {
   return (
     <>
-      {/* {saturation.map((sat) => (
-        <Row className="text-center">
+      {saturation.map((sat) => (
+        <Row key={sat._id} className="text-center">
           <Col as="h5">Measurement: {sat.saturation}</Col>
           <Col as="h5">Date: {sat.time}</Col>
         </Row>
-      ))} */}
+      ))}
     </>
   );
 };

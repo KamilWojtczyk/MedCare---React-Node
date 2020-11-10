@@ -18,7 +18,7 @@ const PatientInfo = ({ match }) => {
 
   useEffect(() => {
     dispatch(listPatientDetails(match.params.id));
-  }, [dispatch]);
+  }, [dispatch, match]);
 
   return (
     <>
@@ -38,77 +38,72 @@ const PatientInfo = ({ match }) => {
                 <Form.Row>
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Name</Form.Label>
-                    <Form.Control as="elementType">{patient.name}</Form.Control>
+                    <Form.Control disabled value={patient.name} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Age</Form.Label>
-                    <Form.Control as="elementType">{patient.age}</Form.Control>
+                    <Form.Control disabled value={patient.age} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Sex</Form.Label>
-                    <Form.Control as="elementType">{patient.sex}</Form.Control>
+                    <Form.Control disabled value={patient.sex} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Birth</Form.Label>
-                    <Form.Control as="elementType">
-                      {patient.birth}
-                    </Form.Control>
+                    <Form.Control disabled value={patient.birth} />
                   </Form.Group>
                 </Form.Row>
 
                 <Form.Row>
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Weight</Form.Label>
-                    <Form.Control as="elementType">
-                      {patient.weight}kg
-                    </Form.Control>
+                    <Form.Control disabled value={`${patient.weight} kg`} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Height</Form.Label>
-                    <Form.Control as="elementType">
-                      {patient.height}cm
-                    </Form.Control>
+                    <Form.Control disabled value={`${patient.height} cm`} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Step Count</Form.Label>
-                    <Form.Control as="elementType">
-                      {patient.stepcount}
-                    </Form.Control>
+                    <Form.Control disabled value={patient.stepcount} />
                   </Form.Group>
                 </Form.Row>
 
                 <Form.Row>
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Blood Pressure</Form.Label>
-                    <Form.Control as="elementType">
-                      {/* {patient.bloodpressure} */}
-                      /min
-                    </Form.Control>
+                    <Form.Control
+                      disabled
+                      value={`${patient.bloodpressure[0]}/min `}
+                    />
                   </Form.Group>
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Heart Rate</Form.Label>
-                    <Form.Control as="elementType">
-                      {/* {patient.heartrate[0]}/min */}
-                    </Form.Control>
+                    <Form.Control
+                      disabled
+                      value={`${patient.heartrate[0]}/min`}
+                    />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Blood Sugar</Form.Label>
-                    <Form.Control as="elementType">
-                      {/* {patient.bloodsugar[0]}mg/dL */}
-                    </Form.Control>
+                    <Form.Control
+                      disabled
+                      value={`${patient.bloodsugar[0]}mg/dL`}
+                    />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Saturation </Form.Label>
-                    <Form.Control as="elementType">
-                      {/* {patient.saturation[0]}% */}
-                    </Form.Control>
+                    <Form.Control
+                      disabled
+                      value={`${patient.saturation[0]}%`}
+                    />
                   </Form.Group>
                 </Form.Row>
               </Form>
@@ -137,7 +132,7 @@ const PatientInfo = ({ match }) => {
             <Card.Body>
               <Saturation saturation={patient.saturation} />
             </Card.Body>
-          </Card>{" "}
+          </Card>
         </>
       )}
     </>

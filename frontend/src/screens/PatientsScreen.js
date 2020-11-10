@@ -27,7 +27,7 @@ const PatientsScreen = () => {
         <ListGroup>
           <ListGroupItem className="border-dark">
             {patients.map((patient) => (
-              <PatientItem key={patient.id} patient={patient} />
+              <PatientItem key={patient._id} patient={patient} />
             ))}
           </ListGroupItem>
         </ListGroup>
