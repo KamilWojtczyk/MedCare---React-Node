@@ -5,13 +5,21 @@ import {
   patientlistReducer,
   patientDetailsReducer,
 } from "./reducers/patientReducers.js";
+import { userloginReducer } from "./reducers/userReducers";
 
 const reducer = combineReducers({
   patientList: patientlistReducer,
   patientDetails: patientDetailsReducer,
+  userLogin: userloginReducer,
 });
 
-const initialState = {};
+const userInfoFromStorage = localStorage.getItem("userInfo")
+  ? JSON.parse(localStorage.getItem("userInfo"))
+  : null;
+
+const initialState = {
+  userLogin: { userInfo: userInfoFromStorage },
+};
 
 const middleware = [thunk];
 
