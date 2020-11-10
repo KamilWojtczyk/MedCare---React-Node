@@ -1,7 +1,7 @@
 import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import About from "./screens/About";
-import Auth from "./screens/Auth";
+import LoginScreen from "./screens/LoginScreen";
 import PatientInfo from "./screens/PatientInfo";
 import PatientsScreen from "./screens/PatientsScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -18,9 +18,9 @@ const App = () => {
         <Container>
           <Route path="/" component={HomeScreen} exact />
           <Route path="/about" component={About} exact />
-          <Route path="/patients/:id" component={PatientInfo} exact />
-          <Route path="/auth" component={Auth} exact />
           <Route path="/patients" component={PatientsScreen} exact />
+          <Route path="/patients/:id" component={PatientInfo} exact />
+          <Route path="/login" component={LoginScreen} exact />
         </Container>
       </main>
       <Footer />

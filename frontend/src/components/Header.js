@@ -21,9 +21,9 @@ function Header() {
               </LinkContainer>
             </Nav>
             <Form inline>
-              <LinkContainer to="/auth">
+              <LinkContainer to="/login">
                 <Nav.Link>
-                  <Button variant="outline-success">LOGIN IN</Button>
+                  <Button variant="outline-success">SIGN IN</Button>
                 </Nav.Link>
               </LinkContainer>
             </Form>
