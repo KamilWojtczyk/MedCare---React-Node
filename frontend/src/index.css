@@ -5,8 +5,14 @@ main {
 .navbar-nav .nav-link {
   color: rgba(0, 0, 0, 1) !important;
 }
+.navbar-brand {
+  color: rgba(0, 0, 0, 1) !important;
+}
 
 .navbar-nav .nav-link:hover {
+  color: #fdcb6e !important;
+}
+.navbar-brand:hover {
   color: #fdcb6e !important;
 }
 

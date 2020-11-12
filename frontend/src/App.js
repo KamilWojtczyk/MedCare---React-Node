@@ -2,6 +2,8 @@ import React from "react";
 import { BrowserRouter as Router, Route } from "react-router-dom";
 import About from "./screens/About";
 import LoginScreen from "./screens/LoginScreen";
+import RegisterScreen from "./screens/RegisterScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import PatientInfo from "./screens/PatientInfo";
 import PatientsScreen from "./screens/PatientsScreen";
 import HomeScreen from "./screens/HomeScreen";
@@ -17,10 +19,12 @@ const App = () => {
       <main className="py-3">
         <Container>
           <Route path="/" component={HomeScreen} exact />
-          <Route path="/about" component={About} exact />
+          <Route path="/about" component={About} />
+          <Route path="/profile" component={ProfileScreen} />
           <Route path="/patients" component={PatientsScreen} exact />
-          <Route path="/patients/:id" component={PatientInfo} exact />
-          <Route path="/login" component={LoginScreen} exact />
+          <Route path="/patients/:id" component={PatientInfo} />
+          <Route path="/login" component={LoginScreen} />
+          <Route path="/register" component={RegisterScreen} />
         </Container>
       </main>
       <Footer />

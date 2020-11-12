@@ -76,4 +76,44 @@ const getUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
-export { authUser, getUserProfile, registerUser };
+// @desc Update user profile
+// @route PUT /api/users/profile
+// @access Private
+const updateUserProfile = asyncHandler(async (req, res) => {
+  const user = await User.findById(req.user._id);
+
+  if (user) {
+    user.name = req.body.name || user.name;
+    user.email = req.body.email || user.email;
+    user.age = req.body.age || user.age;
+    user.sex = req.body.sex || user.sex;
+    user.birth = req.body.birth || user.birth;
+    user.weight = req.body.weight || user.weight;
+    user.height = req.body.height || user.height;
+    user.stepcount = req.body.stepcount || user.stepcount;
+    if (req.body.password) {
+      user.password = req.body.password;
+    }
+
+    const updatedUser = await user.save();
+
+    res.json({
+      _id: updatedUser._id,
+      name: updatedUser.name,
+      email: updatedUser.email,
+      isAdmin: updatedUser.isAdmin,
+      age: updatedUser.age,
+      sex: updatedUser.sex,
+      birth: updatedUser.birth,
+      weight: updatedUser.weight,
+      height: updatedUser.height,
+      stepcount: updatedUser.stepcount,
+      token: generateToken(updatedUser._id),
+    });
+  } else {
+    res.status(404);
+    throw new Error("User not found");
+  }
+});
+
+export { authUser, getUserProfile, registerUser, updateUserProfile };

@@ -1,14 +1,30 @@
 import React from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { LinkContainer } from "react-router-bootstrap";
-import { Navbar, Nav, Form, Button, Container } from "react-bootstrap";
+import { Navbar, Nav, Container, NavDropdown } from "react-bootstrap";
+import { logout } from "../actions/userActions";
+import { useHistory } from "react-router-dom";
 
-function Header() {
+const Header = () => {
+  const dispatch = useDispatch();
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
+  const history = useHistory();
+
+  const logoutHandler = () => {
+    dispatch(logout());
+    history.push("/login");
+  };
+
   return (
     <header>
       <Navbar bg="light" expand="lg">
         <Container>
           <LinkContainer to="/">
-            <Navbar.Brand>Medcare</Navbar.Brand>
+            <Navbar.Brand id="nav">
+              <i className="fas fa-home"></i> Medcare
+            </Navbar.Brand>
           </LinkContainer>
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
@@ -19,19 +35,29 @@ function Header() {
               <LinkContainer to="/patient/new">
                 <Nav.Link>ADD PATIENT</Nav.Link>
               </LinkContainer>
+
+              {userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    Logout
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : (
+                <LinkContainer to="/login">
+                  <Nav.Link>
+                    <i className="fas fa-user"></i> SIGN IN
+                  </Nav.Link>
+                </LinkContainer>
+              )}
             </Nav>
-            <Form inline>
-              <LinkContainer to="/login">
-                <Nav.Link>
-                  <Button variant="outline-success">SIGN IN</Button>
-                </Nav.Link>
-              </LinkContainer>
-            </Form>
           </Navbar.Collapse>
         </Container>
       </Navbar>
     </header>
   );
-}
+};
 
 export default Header;

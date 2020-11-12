@@ -79,7 +79,7 @@ const PatientInfo = ({ match }) => {
                     <Form.Label as="h5">Blood Pressure</Form.Label>
                     <Form.Control
                       disabled
-                      value={`${patient.bloodpressure[0]}/min `}
+                      value={`${patient.bloodpressure.slice(-1).pop()}/min `}
                     />
                   </Form.Group>
                   <Form.Group as={Col} variant="flush">

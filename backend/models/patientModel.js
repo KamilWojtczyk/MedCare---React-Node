@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const bloodpressureSchema = mongoose.Schema(
   {
     blood: { type: String, required: true },
-    time: { type: String, required: false },
+    time: { type: String, required: true },
   },
   {
     timestamps: true,
@@ -13,7 +13,7 @@ const bloodpressureSchema = mongoose.Schema(
 const bloodsugarSchema = mongoose.Schema(
   {
     bloodsugar: { type: String, required: true },
-    time: { type: String, required: false },
+    time: { type: String, required: true },
   },
   {
     timestamps: true,
@@ -23,7 +23,7 @@ const bloodsugarSchema = mongoose.Schema(
 const heartrateSchema = mongoose.Schema(
   {
     heart: { type: String, required: true },
-    time: { type: String, required: false },
+    time: { type: String, required: true },
   },
   {
     timestamps: true,
@@ -33,7 +33,7 @@ const heartrateSchema = mongoose.Schema(
 const saturationSchema = mongoose.Schema(
   {
     saturation: { type: String, required: true },
-    time: { type: String, required: false },
+    time: { type: String, required: true },
   },
   {
     timestamps: true,
