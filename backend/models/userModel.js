@@ -1,46 +1,6 @@
 import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 
-const bloodpressureSchema = mongoose.Schema(
-  {
-    blood: { type: String, required: true },
-    time: { type: String, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-const bloodsugarSchema = mongoose.Schema(
-  {
-    bloodsugar: { type: String, required: true },
-    time: { type: String, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-const heartrateSchema = mongoose.Schema(
-  {
-    heart: { type: String, required: true },
-    time: { type: String, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
-
-const saturationSchema = mongoose.Schema(
-  {
-    saturation: { type: String, required: true },
-    time: { type: String, required: true },
-  },
-  {
-    timestamps: true,
-  }
-);
-
 const userSchema = mongoose.Schema(
   {
     name: {
@@ -61,28 +21,6 @@ const userSchema = mongoose.Schema(
       required: true,
       default: false,
     },
-    age: {
-      type: Number,
-    },
-    sex: {
-      type: String,
-    },
-    birth: {
-      type: String,
-    },
-    weight: {
-      type: Number,
-    },
-    height: {
-      type: Number,
-    },
-    stepcount: {
-      type: Number,
-    },
-    bloodpressure: [bloodpressureSchema],
-    heartrate: [heartrateSchema],
-    bloodsugar: [bloodsugarSchema],
-    saturation: [saturationSchema],
   },
   {
     timestamps: true,

@@ -29,28 +29,46 @@ const Header = () => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" />
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
-              <LinkContainer to="/patients">
-                <Nav.Link>ALL PATIENTS</Nav.Link>
-              </LinkContainer>
-              <LinkContainer to="/patient/new">
-                <Nav.Link>ADD PATIENT</Nav.Link>
-              </LinkContainer>
-
-              {userInfo ? (
-                <NavDropdown title={userInfo.name} id="username">
+              {userInfo && userInfo.isAdmin ? (
+                <NavDropdown title="Admin" id="adminmenu">
                   <LinkContainer to="/profile">
-                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                    <NavDropdown.Item>PROFILE</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/userlist">
+                    <NavDropdown.Item>USERS</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/admin/patientslist">
+                    <NavDropdown.Item>ALL PATIENTS</NavDropdown.Item>
                   </LinkContainer>
                   <NavDropdown.Item onClick={logoutHandler}>
-                    Logout
+                    LOGOUT
+                  </NavDropdown.Item>
+                </NavDropdown>
+              ) : userInfo ? (
+                <NavDropdown title={userInfo.name} id="username">
+                  <LinkContainer to="/patients">
+                    <NavDropdown.Item>ALL PATIENTS</NavDropdown.Item>
+                  </LinkContainer>
+                  <LinkContainer to="/profile">
+                    <NavDropdown.Item>PROFILE</NavDropdown.Item>
+                  </LinkContainer>
+                  <NavDropdown.Item onClick={logoutHandler}>
+                    LOGOUT
                   </NavDropdown.Item>
                 </NavDropdown>
               ) : (
-                <LinkContainer to="/login">
-                  <Nav.Link>
-                    <i className="fas fa-user"></i> SIGN IN
-                  </Nav.Link>
-                </LinkContainer>
+                <>
+                  <LinkContainer to="/about">
+                    <Nav.Link>
+                      <i className="fas fa-info-circle"></i> ABOUT
+                    </Nav.Link>
+                  </LinkContainer>
+                  <LinkContainer to="/login">
+                    <Nav.Link>
+                      <i className="fas fa-user"></i> SIGN IN
+                    </Nav.Link>
+                  </LinkContainer>
+                </>
               )}
             </Nav>
           </Navbar.Collapse>

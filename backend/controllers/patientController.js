@@ -1,9 +1,9 @@
 import asyncHandler from "express-async-handler";
 import Patient from "../models/patientModel.js";
 
-// @desc Fetch all patients
+// @desc Get all patients
 // @route Get /api/patients
-// @access Public
+// @access Private
 const getPatients = asyncHandler(async (req, res) => {
   const patients = await Patient.find({});
   res.json(patients);
