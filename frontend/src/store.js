@@ -4,6 +4,9 @@ import { composeWithDevTools } from "redux-devtools-extension";
 import {
   patientlistReducer,
   patientDetailsReducer,
+  patientDeleteReducer,
+  patientCreateReducer,
+  patientUpdateReducer,
 } from "./reducers/patientReducers.js";
 import {
   userloginReducer,
@@ -18,6 +21,9 @@ import {
 const reducer = combineReducers({
   patientList: patientlistReducer,
   patientDetails: patientDetailsReducer,
+  patientDelete: patientDeleteReducer,
+  patientCreate: patientCreateReducer,
+  patientUpdate: patientUpdateReducer,
   userLogin: userloginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,

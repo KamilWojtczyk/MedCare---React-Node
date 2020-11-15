@@ -119,14 +119,15 @@ const getUsers = asyncHandler(async (req, res) => {
 const deleteUser = asyncHandler(async (req, res) => {
   const user = await User.findById(req.params.id);
 
-  if (user) {
+  if (user.email === "admin@example.com") {
+    throw new Error("Not able to delete Admin User");
+  } else if (user) {
     await user.remove();
     res.json({ message: "User removed" });
   } else {
     res.status(404);
     throw new Error("User not found");
   }
-  res.json(users);
 });
 
 // @desc Get user by id

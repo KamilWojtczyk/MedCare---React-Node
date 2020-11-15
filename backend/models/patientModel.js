@@ -63,17 +63,29 @@ const patientSchema = mongoose.Schema(
       type: String,
       required: true,
     },
+    phone: {
+      type: Number,
+      required: false,
+    },
+    pesel: {
+      type: String,
+      required: true,
+    },
+    email: {
+      type: String,
+      required: false,
+    },
     weight: {
       type: Number,
-      required: true,
+      required: false,
     },
     height: {
       type: Number,
-      required: true,
+      required: false,
     },
     stepcount: {
       type: Number,
-      required: true,
+      required: false,
     },
     bloodpressure: [bloodpressureSchema],
     heartrate: [heartrateSchema],

@@ -16,7 +16,7 @@ const UserListScreen = ({ history }) => {
   const { userInfo } = userLogin;
 
   const userDelete = useSelector((state) => state.userDelete);
-  const { success: successDelete } = userDelete;
+  const { success: successDelete, error: errorDelete } = userDelete;
 
   useEffect(() => {
     if (userInfo && userInfo.isAdmin) {
@@ -24,7 +24,7 @@ const UserListScreen = ({ history }) => {
     } else {
       history.push("/login");
     }
-  }, [dispatch, history, userInfo, successDelete]);
+  }, [dispatch, history, userInfo, errorDelete, successDelete]);
 
   const deleteHandler = (id) => {
     if (window.confirm("Are you sure")) {
@@ -35,6 +35,7 @@ const UserListScreen = ({ history }) => {
   return (
     <>
       <h1>Users</h1>
+      {errorDelete && <Message variant="danger">{errorDelete}</Message>}
       {loading ? (
         <Loader />
       ) : error ? (
@@ -67,23 +68,18 @@ const UserListScreen = ({ history }) => {
                 </td>
                 <td>
                   <LinkContainer to={`/admin/user/${user._id}/edit`}>
-                    <Button variant="light" className="btn-sm">
+                    <Button id="button" variant="light" className="btn-sm">
                       <i className="fas fa-edit"></i>
                     </Button>
                   </LinkContainer>
-                  {user.isAdmin ? (
-                    <Button variant="dark" className="btn-sm" disabled>
-                      <i className="fas fa-user-slash"></i>
-                    </Button>
-                  ) : (
-                    <Button
-                      variant="danger"
-                      className="btn-sm"
-                      onClick={() => deleteHandler(user._id)}
-                    >
-                      <i className="fas fa-trash"></i>
-                    </Button>
-                  )}
+
+                  <Button
+                    variant="danger"
+                    className="btn-sm"
+                    onClick={() => deleteHandler(user._id)}
+                  >
+                    <i className="fas fa-trash"></i>
+                  </Button>
                 </td>
               </tr>
             ))}

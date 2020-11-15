@@ -22,7 +22,7 @@ const PatientInfo = ({ match }) => {
 
   return (
     <>
-      <Link className="btn btn-dark my-3" to="/patients">
+      <Link className="btn btn-dark my-3" to="/admin/patientlist">
         Go Back
       </Link>
       {loading ? (
@@ -52,8 +52,26 @@ const PatientInfo = ({ match }) => {
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
+                    <Form.Label as="h5">Pesel Number</Form.Label>
+                    <Form.Control disabled value={patient.pesel} />
+                  </Form.Group>
+                </Form.Row>
+
+                <Form.Row>
+                  <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Birth</Form.Label>
                     <Form.Control disabled value={patient.birth} />
+                  </Form.Group>
+                  <Form.Group as={Col} variant="flush">
+                    <Form.Label as="h5">Phone Number</Form.Label>
+                    <Form.Control disabled value={patient.phone} />
+                  </Form.Group>
+
+                  <Form.Group as={Col} variant="flush">
+                    <Form.Label as="h5">Email Address</Form.Label>
+                    <a href={`mailto:${patient.email}`}>
+                      <Form.Control disabled value={patient.email} />
+                    </a>
                   </Form.Group>
                 </Form.Row>
 
@@ -71,39 +89,6 @@ const PatientInfo = ({ match }) => {
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Step Count</Form.Label>
                     <Form.Control disabled value={patient.stepcount} />
-                  </Form.Group>
-                </Form.Row>
-
-                <Form.Row>
-                  <Form.Group as={Col} variant="flush">
-                    <Form.Label as="h5">Blood Pressure</Form.Label>
-                    <Form.Control
-                      disabled
-                      value={`${patient.bloodpressure.slice(-1).pop()}/min `}
-                    />
-                  </Form.Group>
-                  <Form.Group as={Col} variant="flush">
-                    <Form.Label as="h5">Heart Rate</Form.Label>
-                    <Form.Control
-                      disabled
-                      value={`${patient.heartrate[0]}/min`}
-                    />
-                  </Form.Group>
-
-                  <Form.Group as={Col} variant="flush">
-                    <Form.Label as="h5">Blood Sugar</Form.Label>
-                    <Form.Control
-                      disabled
-                      value={`${patient.bloodsugar[0]}mg/dL`}
-                    />
-                  </Form.Group>
-
-                  <Form.Group as={Col} variant="flush">
-                    <Form.Label as="h5">Saturation </Form.Label>
-                    <Form.Control
-                      disabled
-                      value={`${patient.saturation[0]}%`}
-                    />
                   </Form.Group>
                 </Form.Row>
               </Form>
