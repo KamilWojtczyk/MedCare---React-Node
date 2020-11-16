@@ -19,7 +19,7 @@ import {
 } from "../actions/patientActions";
 import { PATIENT_CREATE_RESET } from "../constants/patientConstants";
 
-const PatientListScreen = ({ history, match }) => {
+const PatientListScreen = ({ history }) => {
   const dispatch = useDispatch();
 
   const patientList = useSelector((state) => state.patientList);
@@ -97,34 +97,85 @@ const PatientListScreen = ({ history, match }) => {
           <ListGroupItem className="border-dark">
             {patients.map((patient) => (
               <Row key={patient._id} className="align-items-center">
-                <Col>
-                  <Card className="my-3 p-3 border-dark rounded patient-item">
-                    <Link to={`/admin/patientlist/${patient._id}`}>
-                      <Row>
-                        <Col
-                          md="auto"
-                          as="h5"
-                          className="text-center patient-item-Col"
+                {patient.isArchived ? (
+                  <>
+                    <Col>
+                      <Card className="my-3 p-3 border-dark rounded patient-item">
+                        <Link
+                          style={{ background: "#dddddd" }}
+                          className="disabled-link"
+                          to={`/admin/patientlist/${patient._id}`}
                         >
-                          Name: {patient.name}
-                        </Col>
-                        <Col as="h5" className="text-center patient-item-Col">
-                          Age: {patient.age}
-                        </Col>
-                        <Col as="h5" className="text-center patient-item-Col">
-                          Sex: {patient.sex}
-                        </Col>
-                        <Col
-                          md="auto"
-                          as="h5"
-                          className="text-center patient-item-Col"
-                        >
-                          Birth: {patient.birth}
-                        </Col>
-                      </Row>
-                    </Link>
-                  </Card>
-                </Col>
+                          <Row>
+                            <Col
+                              md="auto"
+                              as="h5"
+                              className="text-center patient-item-Col"
+                            >
+                              Name: {patient.name}
+                            </Col>
+                            <Col
+                              as="h5"
+                              className="text-center patient-item-Col"
+                            >
+                              Age: {patient.age}
+                            </Col>
+                            <Col
+                              as="h5"
+                              className="text-center patient-item-Col"
+                            >
+                              Sex: {patient.sex}
+                            </Col>
+                            <Col
+                              md="auto"
+                              as="h5"
+                              className="text-center patient-item-Col"
+                            >
+                              Birth: {patient.birth}
+                            </Col>
+                          </Row>
+                        </Link>
+                      </Card>
+                    </Col>
+                  </>
+                ) : (
+                  <>
+                    <Col>
+                      <Card className="my-3 p-3 border-dark rounded patient-item">
+                        <Link to={`/admin/patientlist/${patient._id}`}>
+                          <Row>
+                            <Col
+                              md="auto"
+                              as="h5"
+                              className="text-center patient-item-Col"
+                            >
+                              Name: {patient.name}
+                            </Col>
+                            <Col
+                              as="h5"
+                              className="text-center patient-item-Col"
+                            >
+                              Age: {patient.age}
+                            </Col>
+                            <Col
+                              as="h5"
+                              className="text-center patient-item-Col"
+                            >
+                              Sex: {patient.sex}
+                            </Col>
+                            <Col
+                              md="auto"
+                              as="h5"
+                              className="text-center patient-item-Col"
+                            >
+                              Birth: {patient.birth}
+                            </Col>
+                          </Row>
+                        </Link>
+                      </Card>
+                    </Col>
+                  </>
+                )}
                 <Col md="auto" className="text-right">
                   <LinkContainer to={`/admin/patient/${patient._id}/edit`}>
                     <Button id="button" variant="secondary" className="btn-sm">

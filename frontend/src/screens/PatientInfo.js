@@ -1,14 +1,11 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Form, Card, Col } from "react-bootstrap";
-import Blood from "../components/Blood";
-import Heart from "../components/Heart";
-import BloodSugar from "../components/BloodSugar";
-import Saturation from "../components/Saturation";
+import { Form, Card, Row, Col, Nav } from "react-bootstrap";
 import { listPatientDetails } from "../actions/patientActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { LinkContainer } from "react-router-bootstrap";
 
 const PatientInfo = ({ match }) => {
   const dispatch = useDispatch();
@@ -16,15 +13,26 @@ const PatientInfo = ({ match }) => {
   const patientDetails = useSelector((state) => state.patientDetails);
   const { loading, error, patient } = patientDetails;
 
+  const userLogin = useSelector((state) => state.userLogin);
+  const { userInfo } = userLogin;
+
   useEffect(() => {
     dispatch(listPatientDetails(match.params.id));
   }, [dispatch, match]);
 
   return (
     <>
-      <Link className="btn btn-dark my-3" to="/admin/patientlist">
-        Go Back
-      </Link>
+      <Row className="align-items-center">
+        <Col>
+          <Link className="btn btn-dark my-3" to="/admin/patientlist">
+            Go Back
+          </Link>
+        </Col>
+        <Col className="text-right">
+          <h5>Patient created by: {patient.nameUser}</h5>
+        </Col>
+      </Row>
+
       {loading ? (
         <Loader />
       ) : error ? (
@@ -32,7 +40,33 @@ const PatientInfo = ({ match }) => {
       ) : (
         <>
           <Card className="mb-3 border-dark">
-            <Card.Header as="h5">Personal Informations</Card.Header>
+            <Card.Header>
+              <Nav variant="pills">
+                <LinkContainer to={`/admin/patientlist/${patient._id}`}>
+                  <Nav.Link>Personal Informations</Nav.Link>
+                </LinkContainer>
+                <LinkContainer
+                  to={`/admin/patientlist/${patient._id}/bloodpressure`}
+                >
+                  <Nav.Link eventKey="link-1">Blood Pressure</Nav.Link>
+                </LinkContainer>
+                <LinkContainer
+                  to={`/admin/patientlist/${patient._id}/heartrate`}
+                >
+                  <Nav.Link eventKey="link-1">Heart Rate</Nav.Link>
+                </LinkContainer>
+                <LinkContainer
+                  to={`/admin/patientlist/${patient._id}/bloodsugar`}
+                >
+                  <Nav.Link eventKey="link-1">Blood Sugar</Nav.Link>
+                </LinkContainer>
+                <LinkContainer
+                  to={`/admin/patientlist/${patient._id}/saturation`}
+                >
+                  <Nav.Link eventKey="link-1">Saturation</Nav.Link>
+                </LinkContainer>
+              </Nav>
+            </Card.Header>
             <Card.Body>
               <Form>
                 <Form.Row>
@@ -92,30 +126,6 @@ const PatientInfo = ({ match }) => {
                   </Form.Group>
                 </Form.Row>
               </Form>
-            </Card.Body>
-          </Card>
-          <Card className="mb-3 border-dark">
-            <Card.Header as="h5">Blood Pressure</Card.Header>
-            <Card.Body>
-              <Blood bloodpressure={patient.bloodpressure} />
-            </Card.Body>
-          </Card>
-          <Card className="mb-3 border-dark">
-            <Card.Header as="h5">Heart Rate</Card.Header>
-            <Card.Body>
-              <Heart heartrate={patient.heartrate} />
-            </Card.Body>
-          </Card>
-          <Card className="mb-3 border-dark">
-            <Card.Header as="h5">Blood Sugar</Card.Header>
-            <Card.Body>
-              <BloodSugar bloodsugar={patient.bloodsugar} />
-            </Card.Body>
-          </Card>
-          <Card className="mb-3 border-dark">
-            <Card.Header as="h5">Saturation</Card.Header>
-            <Card.Body>
-              <Saturation saturation={patient.saturation} />
             </Card.Body>
           </Card>
         </>

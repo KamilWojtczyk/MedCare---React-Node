@@ -7,6 +7,8 @@ import {
   patientDeleteReducer,
   patientCreateReducer,
   patientUpdateReducer,
+  patientBloodpressureCreateReducer,
+  patientHeartrateCreateReducer,
 } from "./reducers/patientReducers.js";
 import {
   userloginReducer,
@@ -24,6 +26,8 @@ const reducer = combineReducers({
   patientDelete: patientDeleteReducer,
   patientCreate: patientCreateReducer,
   patientUpdate: patientUpdateReducer,
+  patientBloodpressureCreate: patientBloodpressureCreateReducer,
+  patientHeartrateCreate: patientHeartrateCreateReducer,
   userLogin: userloginReducer,
   userRegister: userRegisterReducer,
   userDetails: userDetailsReducer,

@@ -43,12 +43,18 @@ const deletePatient = asyncHandler(async (req, res) => {
 // @access Private Admin
 const createPatient = asyncHandler(async (req, res) => {
   const patient = new Patient({
+    nameUser: req.user.name,
     user: req.user._id,
     name: "Name and Surname",
     age: 0,
     sex: "Sex",
-    birth: "1900-01-01",
+    birth: "1980-01-01",
+    phone: 0,
     pesel: 0,
+    email: "email@example.com",
+    weight: 0,
+    height: 0,
+    stepcount: 0,
   });
 
   const createdPatient = await patient.save();
@@ -70,6 +76,7 @@ const updatePatient = asyncHandler(async (req, res) => {
     weight,
     height,
     stepcount,
+    isArchived,
   } = req.body;
 
   const patient = await Patient.findById(req.params.id);
@@ -85,9 +92,56 @@ const updatePatient = asyncHandler(async (req, res) => {
     patient.weight = weight;
     patient.height = height;
     patient.stepcount = stepcount;
+    patient.isArchived = isArchived;
 
     const updatedPatient = await patient.save();
     res.json(updatedPatient);
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
+// @desc Create new bloodpressure
+// @route POST /api/patients/:id/bloodpressure
+// @access Private Admin
+const createPatientBloodpressure = asyncHandler(async (req, res) => {
+  const { blood, time } = req.body;
+
+  const patient = await Patient.findById(req.params.id);
+
+  if (patient) {
+    const bloodpressure = {
+      blood,
+      time,
+      user: req.user._id,
+    };
+    patient.bloodpressure.push(bloodpressure);
+    await patient.save();
+    res.status(201).json({ message: "Blood pressure added" });
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
+// @desc Create new heartrate
+// @route POST /api/patients/:id/heartrate
+// @access Private Admin
+const createPatientHeartrate = asyncHandler(async (req, res) => {
+  const { heart, time } = req.body;
+
+  const patient = await Patient.findById(req.params.id);
+
+  if (patient) {
+    const heartrate = {
+      heart,
+      time,
+      user: req.user._id,
+    };
+    patient.heartrate.push(heartrate);
+    await patient.save();
+    res.status(201).json({ message: "Heart rate added" });
   } else {
     res.status(404);
     throw new Error("Patient not found");
@@ -100,4 +154,6 @@ export {
   deletePatient,
   createPatient,
   updatePatient,
+  createPatientBloodpressure,
+  createPatientHeartrate,
 };

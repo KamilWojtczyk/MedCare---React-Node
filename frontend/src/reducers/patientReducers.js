@@ -17,6 +17,14 @@ import {
   PATIENT_UPDATE_SUCCESS,
   PATIENT_UPDATE_FAIL,
   PATIENT_UPDATE_RESET,
+  PATIENT_CREATE_BLOODPRESSURE_REQUEST,
+  PATIENT_CREATE_BLOODPRESSURE_SUCCESS,
+  PATIENT_CREATE_BLOODPRESSURE_FAIL,
+  PATIENT_CREATE_BLOODPRESSURE_RESET,
+  PATIENT_CREATE_HEARTRATE_REQUEST,
+  PATIENT_CREATE_HEARTRATE_SUCCESS,
+  PATIENT_CREATE_HEARTRATE_FAIL,
+  PATIENT_CREATE_HEARTRATE_RESET,
 } from "../constants/patientConstants";
 
 export const patientlistReducer = (state = { patients: [] }, action) => {
@@ -95,6 +103,36 @@ export const patientUpdateReducer = (state = { patient: {} }, action) => {
       return { loading: false, error: action.payload };
     case PATIENT_UPDATE_RESET:
       return { patient: {} };
+    default:
+      return state;
+  }
+};
+
+export const patientBloodpressureCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_CREATE_BLOODPRESSURE_REQUEST:
+      return { loading: true };
+    case PATIENT_CREATE_BLOODPRESSURE_SUCCESS:
+      return { loading: false, success: true };
+    case PATIENT_CREATE_BLOODPRESSURE_FAIL:
+      return { loading: false, error: action.payload };
+    case PATIENT_CREATE_BLOODPRESSURE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const patientHeartrateCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_CREATE_HEARTRATE_REQUEST:
+      return { loading: true };
+    case PATIENT_CREATE_HEARTRATE_SUCCESS:
+      return { loading: false, success: true };
+    case PATIENT_CREATE_HEARTRATE_FAIL:
+      return { loading: false, error: action.payload };
+    case PATIENT_CREATE_HEARTRATE_RESET:
+      return {};
     default:
       return state;
   }

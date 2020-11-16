@@ -13,12 +13,13 @@ const PatientEditScreen = ({ match, history }) => {
   const [age, setAge] = useState(0);
   const [sex, setSex] = useState("");
   const [birth, setBirth] = useState("");
-  const [phone, setPhone] = useState(0);
-  const [pesel, setPesel] = useState(0);
+  const [phone, setPhone] = useState("");
+  const [pesel, setPesel] = useState("");
   const [email, setEmail] = useState("");
   const [weight, setWeight] = useState(0);
   const [height, setHeight] = useState(0);
   const [stepcount, setStepcount] = useState(0);
+  const [isArchived, setIsArchived] = useState(false);
 
   const dispatch = useDispatch();
 
@@ -50,6 +51,7 @@ const PatientEditScreen = ({ match, history }) => {
         setHeight(patient.height);
         setStepcount(patient.stepcount);
         setEmail(patient.email);
+        setIsArchived(patient.isArchived);
       }
     }
   }, [dispatch, history, patientId, patient, successUpdate]);
@@ -69,6 +71,7 @@ const PatientEditScreen = ({ match, history }) => {
         weight,
         height,
         stepcount,
+        isArchived,
       })
     );
   };
@@ -127,8 +130,9 @@ const PatientEditScreen = ({ match, history }) => {
                   <Form.Group controlId="pesel" as={Col} variant="flush">
                     <Form.Label as="h5">Pesel Number</Form.Label>
                     <Form.Control
-                      type="number"
-                      pattern="^[1-9]\d{2}-\d{3}-\d{3}"
+                      type="text"
+                      maxLength="11"
+                      pattern="[0-9]*"
                       placeholder="Enter Pesel"
                       value={pesel}
                       onChange={(e) => setPesel(e.target.value)}
@@ -149,8 +153,10 @@ const PatientEditScreen = ({ match, history }) => {
                   <Form.Group controlId="phone" as={Col} variant="flush">
                     <Form.Label as="h5">Phone Number</Form.Label>
                     <Form.Control
-                      type="number"
-                      pattern="^[1-9]\d{3}-\d{3}-\d{3}"
+                      type="text"
+                      maxLength="11"
+                      data-mask="999-999-999"
+                      pattern="^[0-9]*\d{3}[\s.-]?\d{3}[\s.-]?\d{3}"
                       placeholder="Enter Phone Number"
                       value={phone}
                       onChange={(e) => setPhone(e.target.value)}
@@ -199,6 +205,14 @@ const PatientEditScreen = ({ match, history }) => {
                     ></Form.Control>
                   </Form.Group>
                 </Form.Row>
+                <Form.Group variant="flush" controlId="isArchived">
+                  <Form.Check
+                    type="checkbox"
+                    label="Archive the patient"
+                    checked={isArchived}
+                    onChange={(e) => setIsArchived(e.target.checked)}
+                  ></Form.Check>
+                </Form.Group>
                 <Button type="submit" variant="primary">
                   Update
                 </Button>

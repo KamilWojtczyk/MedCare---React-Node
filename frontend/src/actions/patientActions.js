@@ -15,6 +15,12 @@ import {
   PATIENT_UPDATE_REQUEST,
   PATIENT_UPDATE_SUCCESS,
   PATIENT_UPDATE_FAIL,
+  PATIENT_CREATE_BLOODPRESSURE_REQUEST,
+  PATIENT_CREATE_BLOODPRESSURE_SUCCESS,
+  PATIENT_CREATE_BLOODPRESSURE_FAIL,
+  PATIENT_CREATE_HEARTRATE_REQUEST,
+  PATIENT_CREATE_HEARTRATE_SUCCESS,
+  PATIENT_CREATE_HEARTRATE_FAIL,
 } from "../constants/patientConstants";
 
 export const listPatients = () => async (dispatch, getState) => {
@@ -168,6 +174,78 @@ export const updatePatient = (patient) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PATIENT_UPDATE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const createPatientBloodpressure = (patientId, bloodpressure) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: PATIENT_CREATE_BLOODPRESSURE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.post(
+      `/api/patients/${patientId}/bloodpressure`,
+      bloodpressure,
+      config
+    );
+
+    dispatch({
+      type: PATIENT_CREATE_BLOODPRESSURE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: PATIENT_CREATE_BLOODPRESSURE_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const createPatientHeartrate = (patientId, heartrate) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: PATIENT_CREATE_HEARTRATE_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.post(`/api/patients/${patientId}/heartrate`, heartrate, config);
+
+    dispatch({
+      type: PATIENT_CREATE_HEARTRATE_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: PATIENT_CREATE_HEARTRATE_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

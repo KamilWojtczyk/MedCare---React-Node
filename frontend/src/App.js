@@ -3,6 +3,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import About from "./screens/About";
 import Header from "./components/Header";
 import Footer from "./components/Footer";
+import Blood from "./components/Blood";
+import Heart from "./components/Heart";
+import BloodSugar from "./components/BloodSugar";
+import Saturation from "./components/Saturation";
 import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen";
@@ -35,6 +39,19 @@ const App = () => {
           />
           <Route path="/admin/patientlist/:id" component={PatientInfo} exact />
           <Route path="/admin/patient/:id/edit" component={PatientEditScreen} />
+          <Route
+            path="/admin/patientlist/:id/bloodpressure"
+            component={Blood}
+          />
+          <Route path="/admin/patientlist/:id/heartrate" component={Heart} />
+          <Route
+            path="/admin/patientlist/:id/bloodsugar"
+            component={BloodSugar}
+          />
+          <Route
+            path="/admin/patientlist/:id/saturation"
+            component={Saturation}
+          />
           <Route path="/admin/user/:id/edit" component={UserEditScreen} />
           <Route path="/admin/userlist" component={UserListScreen} />
         </Container>

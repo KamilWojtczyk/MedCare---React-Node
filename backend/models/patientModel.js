@@ -4,6 +4,11 @@ const bloodpressureSchema = mongoose.Schema(
   {
     blood: { type: String, required: true },
     time: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
@@ -14,6 +19,11 @@ const bloodsugarSchema = mongoose.Schema(
   {
     bloodsugar: { type: String, required: true },
     time: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
@@ -24,6 +34,11 @@ const heartrateSchema = mongoose.Schema(
   {
     heart: { type: String, required: true },
     time: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
@@ -34,6 +49,11 @@ const saturationSchema = mongoose.Schema(
   {
     saturation: { type: String, required: true },
     time: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "User",
+    },
   },
   {
     timestamps: true,
@@ -42,6 +62,7 @@ const saturationSchema = mongoose.Schema(
 
 const patientSchema = mongoose.Schema(
   {
+    nameUser: { type: String, required: false },
     user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
@@ -64,7 +85,7 @@ const patientSchema = mongoose.Schema(
       required: true,
     },
     phone: {
-      type: Number,
+      type: String,
       required: false,
     },
     pesel: {
@@ -86,6 +107,11 @@ const patientSchema = mongoose.Schema(
     stepcount: {
       type: Number,
       required: false,
+    },
+    isArchived: {
+      type: Boolean,
+      required: false,
+      default: false,
     },
     bloodpressure: [bloodpressureSchema],
     heartrate: [heartrateSchema],

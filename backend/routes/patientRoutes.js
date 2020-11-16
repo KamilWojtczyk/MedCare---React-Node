@@ -5,11 +5,17 @@ import {
   deletePatient,
   updatePatient,
   createPatient,
+  createPatientBloodpressure,
+  createPatientHeartrate,
 } from "../controllers/patientController.js";
 import { protect, admin } from "../middleware/authMiddleware.js";
 const router = express.Router();
 
 router.route("/").get(protect, getPatients).post(protect, admin, createPatient);
+router
+  .route("/:id/bloodpressure")
+  .post(protect, admin, createPatientBloodpressure)
+  .post(protect, admin, createPatientHeartrate);
 
 router
   .route("/:id")
