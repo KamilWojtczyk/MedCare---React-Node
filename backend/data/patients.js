@@ -1,6 +1,6 @@
 const patients = [
   {
-    name: "Kasia",
+    name: "Kasia Nowak",
     age: "22",
     sex: "female",
     birth: "12-01-1998",
@@ -13,78 +13,78 @@ const patients = [
     bloodpressure: [
       {
         blood: "130/85",
-        time: "20-10-2020",
+        time: "2020-11-14T11:37",
       },
       {
         blood: "120/80",
-        time: "21-10-2020",
+        time: "2020-11-15T11:37",
       },
       {
         blood: "137/83",
-        time: "22-10-2020",
+        time: "2020-11-16T11:37",
       },
       {
         blood: "140/80",
-        time: "23-10-2020",
+        time: "2020-11-17T11:37",
       },
     ],
     heartrate: [
       {
         heart: "80",
-        time: "20-10-2020",
+        time: "2020-11-14T11:37",
       },
       {
         heart: "85",
-        time: "21-10-2020",
+        time: "2020-11-15T11:37",
       },
       {
         heart: "76",
-        time: "22-10-2020",
+        time: "2020-11-16T11:37",
       },
       {
         heart: "88",
-        time: "23-10-2020",
+        time: "2020-11-17T11:37",
       },
     ],
     bloodsugar: [
       {
-        bloodsugar: "78",
-        time: "20-10-2020",
+        sugar: "78",
+        time: "2020-11-14T11:37",
       },
       {
-        bloodsugar: "84",
-        time: "21-10-2020",
+        sugar: "84",
+        time: "2020-11-15T11:37",
       },
       {
-        bloodsugar: "86",
-        time: "22-10-2020",
+        sugar: "86",
+        time: "2020-11-16T11:37",
       },
       {
-        bloodsugar: "74",
-        time: "23-10-2020",
+        sugar: "74",
+        time: "2020-11-17T11:37",
       },
     ],
     saturation: [
       {
-        saturation: "95",
-        time: "20-10-2020",
+        sat: "95",
+        time: "2020-11-14T11:37",
       },
       {
-        saturation: "98",
-        time: "21-10-2020",
+        sat: "98",
+        time: "2020-11-15T11:37",
       },
       {
-        saturation: "97",
-        time: "22-10-2020",
+        sat: "97",
+        time: "2020-11-16T11:37",
       },
       {
-        saturation: "95",
-        time: "23-10-2020",
+        sat: "95",
+        time: "2020-11-17T11:37",
       },
     ],
   },
   {
-    name: "Adam",
+    name: "Adam Wójcik",
     age: "56",
     sex: "male",
     birth: "11-06-1964",
@@ -97,78 +97,78 @@ const patients = [
     bloodpressure: [
       {
         blood: "130/85",
-        time: "20-10-2020",
+        time: "2020-11-14T11:37",
       },
       {
         blood: "120/80",
-        time: "21-10-2020",
+        time: "2020-11-15T11:37",
       },
       {
         blood: "137/83",
-        time: "22-10-2020",
+        time: "2020-11-16T11:37",
       },
       {
         blood: "140/80",
-        time: "23-10-2020",
+        time: "2020-11-17T11:37",
       },
     ],
     heartrate: [
       {
         heart: "66",
-        time: "20-10-2020",
+        time: "2020-11-14T11:37",
       },
       {
         heart: "70",
-        time: "21-10-2020",
+        time: "2020-11-15T11:37",
       },
       {
         heart: "76",
-        time: "22-10-2020",
+        time: "2020-11-16T11:37",
       },
       {
         heart: "68",
-        time: "23-10-2020",
+        time: "2020-11-17T11:37",
       },
     ],
     bloodsugar: [
       {
-        bloodsugar: "78",
-        time: "20-10-2020",
+        sugar: "78",
+        time: "2020-11-14T11:37",
       },
       {
-        bloodsugar: "84",
-        time: "21-10-2020",
+        sugar: "84",
+        time: "2020-11-15T11:37",
       },
       {
-        bloodsugar: "86",
-        time: "22-10-2020",
+        sugar: "86",
+        time: "2020-11-16T11:37",
       },
       {
-        bloodsugar: "74",
-        time: "23-10-2020",
+        sugar: "74",
+        time: "2020-11-17T11:37",
       },
     ],
     saturation: [
       {
-        saturation: "95",
-        time: "20-10-2020",
+        sat: "95",
+        time: "2020-11-14T11:37",
       },
       {
-        saturation: "98",
-        time: "21-10-2020",
+        sat: "98",
+        time: "2020-11-15T11:37",
       },
       {
-        saturation: "97",
-        time: "22-10-2020",
+        sat: "97",
+        time: "2020-11-16T11:37",
       },
       {
-        saturation: "95",
-        time: "23-10-2020",
+        sat: "95",
+        time: "2020-11-17T11:37",
       },
     ],
   },
   {
-    name: "Wojtek",
+    name: "Wojciech Kowalczyk",
     age: "13",
     sex: "male",
     birth: "21-02-2007",
@@ -181,73 +181,73 @@ const patients = [
     bloodpressure: [
       {
         blood: "130/85",
-        time: "20-10-2020",
+        time: "2020-11-14T11:37",
       },
       {
         blood: "120/80",
-        time: "21-10-2020",
+        time: "2020-11-15T11:37",
       },
       {
         blood: "137/83",
-        time: "22-10-2020",
+        time: "2020-11-16T11:37",
       },
       {
         blood: "140/80",
-        time: "23-10-2020",
+        time: "2020-11-17T11:37",
       },
     ],
     heartrate: [
       {
         heart: "85",
-        time: "20-10-2020",
+        time: "2020-11-14T11:37",
       },
       {
         heart: "80",
-        time: "21-10-2020",
+        time: "2020-11-15T11:37",
       },
       {
         heart: "88",
-        time: "22-10-2020",
+        time: "2020-11-16T11:37",
       },
       {
         heart: "80",
-        time: "23-10-2020",
+        time: "2020-11-17T11:37",
       },
     ],
     bloodsugar: [
       {
-        bloodsugar: "78",
-        time: "20-10-2020",
+        sugar: "78",
+        time: "2020-11-14T11:37",
       },
       {
-        bloodsugar: "84",
-        time: "21-10-2020",
+        sugar: "84",
+        time: "2020-11-15T11:37",
       },
       {
-        bloodsugar: "86",
-        time: "22-10-2020",
+        sugar: "86",
+        time: "2020-11-16T11:37",
       },
       {
-        bloodsugar: "74",
-        time: "23-10-2020",
+        sugar: "74",
+        time: "2020-11-17T11:37",
       },
     ],
     saturation: [
       {
-        saturation: "95",
-        time: "20-10-2020",
+        sat: "95",
+        time: "2020-11-13T11:37",
       },
       {
-        saturation: "98",
-        time: "21-10-2020",
+        sat: "98",
+        time: "2020-11-15T11:37",
       },
       {
-        saturation: "97",
-        time: "22-10-2020",
+        sat: "97",
+        time: "2020-11-16T11:37",
       },
       {
-        saturation: "95",
-        time: "23-10-2020",
+        sat: "95",
+        time: "2020-11-17T11:37",
       },
     ],
   },

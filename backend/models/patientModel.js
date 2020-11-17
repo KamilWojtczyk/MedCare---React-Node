@@ -1,5 +1,21 @@
 import mongoose from "mongoose";
 
+const commentSchema = mongoose.Schema(
+  {
+    name: { type: String, required: true },
+    title: { type: String, required: true },
+    text: { type: String, required: true },
+    user: {
+      type: mongoose.Schema.Types.ObjectId,
+      required: false,
+      ref: "User",
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
 const bloodpressureSchema = mongoose.Schema(
   {
     blood: { type: String, required: true },
@@ -117,6 +133,7 @@ const patientSchema = mongoose.Schema(
     heartrate: [heartrateSchema],
     bloodsugar: [bloodsugarSchema],
     saturation: [saturationSchema],
+    comment: [commentSchema],
   },
   {
     timestamps: true,

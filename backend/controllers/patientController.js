@@ -6,6 +6,7 @@ import Patient from "../models/patientModel.js";
 // @access Private
 const getPatients = asyncHandler(async (req, res) => {
   const patients = await Patient.find({});
+  patients.sort();
   res.json(patients);
 });
 
@@ -49,8 +50,8 @@ const createPatient = asyncHandler(async (req, res) => {
     age: 0,
     sex: "Sex",
     birth: "1980-01-01",
-    phone: 0,
-    pesel: 0,
+    pesel: "Pesel number",
+    phone: "Phone number",
     email: "email@example.com",
     weight: 0,
     height: 0,
@@ -78,6 +79,13 @@ const updatePatient = asyncHandler(async (req, res) => {
     stepcount,
     isArchived,
   } = req.body;
+
+  const peselExists = await Patient.findOne({ pesel });
+
+  if (peselExists) {
+    res.status(400);
+    throw new Error("Patient with that pesel already exists");
+  }
 
   const patient = await Patient.findById(req.params.id);
 
@@ -149,6 +157,9 @@ const createPatientHeartrate = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Create new bloodsugar
+// @route POST /api/patients/:id/bloodsugar
+// @access Private Admin
 const createPatientBloodsugar = asyncHandler(async (req, res) => {
   const { sugar, time } = req.body;
 
@@ -169,6 +180,9 @@ const createPatientBloodsugar = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Create new saturation
+// @route POST /api/patients/:id/saturation
+// @access Private Admin
 const createPatientSaturation = asyncHandler(async (req, res) => {
   const { sat, time } = req.body;
 
@@ -189,6 +203,30 @@ const createPatientSaturation = asyncHandler(async (req, res) => {
   }
 });
 
+// @desc Create new comment
+// @route POST /api/patients/:id/comment
+// @access Private Admin
+const createPatientComment = asyncHandler(async (req, res) => {
+  const { title, text } = req.body;
+
+  const patient = await Patient.findById(req.params.id);
+
+  if (patient) {
+    const comment = {
+      name: req.user.name,
+      title,
+      text,
+      user: req.user._id,
+    };
+    patient.comment.push(comment);
+    await patient.save();
+    res.status(201).json({ message: "Comment added" });
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
 export {
   getPatients,
   getPatientById,
@@ -199,4 +237,5 @@ export {
   createPatientHeartrate,
   createPatientBloodsugar,
   createPatientSaturation,
+  createPatientComment,
 };

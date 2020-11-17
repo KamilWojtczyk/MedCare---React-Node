@@ -27,6 +27,9 @@ import {
   PATIENT_CREATE_SATURATION_REQUEST,
   PATIENT_CREATE_SATURATION_SUCCESS,
   PATIENT_CREATE_SATURATION_FAIL,
+  PATIENT_CREATE_COMMENT_REQUEST,
+  PATIENT_CREATE_COMMENT_SUCCESS,
+  PATIENT_CREATE_COMMENT_FAIL,
 } from "../constants/patientConstants";
 
 export const listPatients = () => async (dispatch, getState) => {
@@ -328,6 +331,40 @@ export const createPatientSaturation = (patientId, saturation) => async (
   } catch (error) {
     dispatch({
       type: PATIENT_CREATE_SATURATION_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const createPatientComment = (patientId, comment) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    dispatch({ type: PATIENT_CREATE_COMMENT_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    await axios.post(`/api/patients/${patientId}/comment`, comment, config);
+
+    dispatch({
+      type: PATIENT_CREATE_COMMENT_SUCCESS,
+    });
+  } catch (error) {
+    dispatch({
+      type: PATIENT_CREATE_COMMENT_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

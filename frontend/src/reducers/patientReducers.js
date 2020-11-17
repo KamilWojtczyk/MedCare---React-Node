@@ -33,6 +33,10 @@ import {
   PATIENT_CREATE_SATURATION_SUCCESS,
   PATIENT_CREATE_SATURATION_FAIL,
   PATIENT_CREATE_SATURATION_RESET,
+  PATIENT_CREATE_COMMENT_SUCCESS,
+  PATIENT_CREATE_COMMENT_REQUEST,
+  PATIENT_CREATE_COMMENT_FAIL,
+  PATIENT_CREATE_COMMENT_RESET,
 } from "../constants/patientConstants";
 
 export const patientlistReducer = (state = { patients: [] }, action) => {
@@ -57,6 +61,7 @@ export const patientDetailsReducer = (
       bloodsugar: [],
       heartrate: [],
       saturation: [],
+      comment: [],
     },
   },
   action
@@ -170,6 +175,21 @@ export const patientSaturationCreateReducer = (state = {}, action) => {
     case PATIENT_CREATE_SATURATION_FAIL:
       return { loading: false, error: action.payload };
     case PATIENT_CREATE_SATURATION_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const patientCommentCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_CREATE_COMMENT_REQUEST:
+      return { loading: true };
+    case PATIENT_CREATE_COMMENT_SUCCESS:
+      return { loading: false, success: true };
+    case PATIENT_CREATE_COMMENT_FAIL:
+      return { loading: false, error: action.payload };
+    case PATIENT_CREATE_COMMENT_RESET:
       return {};
     default:
       return state;
