@@ -1,24 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Col, Row, Nav } from "react-bootstrap";
-import { listPatientDetails } from "../actions/patientActions";
+import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
+import {
+  listPatientDetails,
+  createPatientSaturation,
+} from "../actions/patientActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { PATIENT_CREATE_SATURATION_RESET } from "../constants/patientConstants";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Saturation = ({ match }) => {
+  const [sat, setSat] = useState("");
+  const [time, setTime] = useState("");
+
   const dispatch = useDispatch();
 
   const patientDetails = useSelector((state) => state.patientDetails);
   const { loading, error, patient } = patientDetails;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const patientSaturationCreate = useSelector(
+    (state) => state.patientSaturationCreate
+  );
+  const {
+    success: successPatientSaturation,
+    error: errorPatientSaturation,
+  } = patientSaturationCreate;
 
   useEffect(() => {
+    if (successPatientSaturation) {
+      setSat("");
+      setTime("");
+      dispatch({ type: PATIENT_CREATE_SATURATION_RESET });
+    }
     dispatch(listPatientDetails(match.params.id));
-  }, [dispatch, match]);
+  }, [dispatch, match, successPatientSaturation]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(createPatientSaturation(match.params.id, { sat, time }));
+  };
 
   return (
     <>
@@ -41,35 +63,91 @@ const Saturation = ({ match }) => {
           <Card.Header>
             <Nav variant="pills">
               <LinkContainer to={`/admin/patientlist/${patient._id}`}>
-                <Nav.Link>Personal Informations</Nav.Link>
+                <Nav.Link eventKey="personal informations">
+                  Personal Informations
+                </Nav.Link>
               </LinkContainer>
               <LinkContainer
                 to={`/admin/patientlist/${patient._id}/bloodpressure`}
               >
-                <Nav.Link eventKey="link-1">Blood Pressure</Nav.Link>
+                <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
               </LinkContainer>
               <LinkContainer to={`/admin/patientlist/${patient._id}/heartrate`}>
-                <Nav.Link eventKey="link-1">Heart Rate</Nav.Link>
+                <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
                 to={`/admin/patientlist/${patient._id}/bloodsugar`}
               >
-                <Nav.Link eventKey="link-1">Blood Sugar</Nav.Link>
+                <Nav.Link eventKey="bloodsugar">Blood Sugar</Nav.Link>
               </LinkContainer>
               <LinkContainer
                 to={`/admin/patientlist/${patient._id}/saturation`}
               >
-                <Nav.Link eventKey="link-1">Saturation</Nav.Link>
+                <Nav.Link>Saturation</Nav.Link>
               </LinkContainer>
             </Nav>
           </Card.Header>
           <Card.Body>
-            {patient.saturation.map((sat) => (
-              <Row key={sat._id} className="text-center">
-                <Col as="h5">Measurement: {sat.saturation}%</Col>
-                <Col as="h5">Date: {sat.time}</Col>
-              </Row>
-            ))}
+            <h2>Saturation Measurement</h2>
+            {errorPatientSaturation && (
+              <Message variant="danger">{errorPatientSaturation}</Message>
+            )}
+            <Form onSubmit={submitHandler}>
+              <Form.Row>
+                <Form.Group as={Col} variant="flush" controlId="saturation">
+                  <Form.Label>Saturation</Form.Label>
+                  <Form.Control
+                    type="text"
+                    maxLength="2"
+                    pattern="^[0-9]*"
+                    data-mask="99"
+                    placeholder="Enter saturation measure"
+                    value={sat}
+                    onChange={(e) => setSat(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+
+                <Form.Group as={Col} variant="flush" controlId="time">
+                  <Form.Label>Date time</Form.Label>
+                  <Form.Control
+                    type="datetime-local"
+                    placeholder="Enter date time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+              </Form.Row>
+              <Button
+                className="my-1"
+                size="sm"
+                type="submit"
+                variant="primary"
+              >
+                Submit
+              </Button>
+            </Form>
+            {patient.saturation.length === 0 ? (
+              <Message>No measurement</Message>
+            ) : (
+              <Table striped bordered hover responsive className="table-sm">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Measure</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {patient.saturation.reverse().map((sat) => (
+                    <tr key={sat._id}>
+                      <td>{sat._id}</td>
+                      <td>{sat.sat}</td>
+                      <td>{sat.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            )}
           </Card.Body>
         </Card>
       )}

@@ -95,6 +95,7 @@ const updatePatient = asyncHandler(async (req, res) => {
     patient.isArchived = isArchived;
 
     const updatedPatient = await patient.save();
+
     res.json(updatedPatient);
   } else {
     res.status(404);
@@ -148,6 +149,46 @@ const createPatientHeartrate = asyncHandler(async (req, res) => {
   }
 });
 
+const createPatientBloodsugar = asyncHandler(async (req, res) => {
+  const { sugar, time } = req.body;
+
+  const patient = await Patient.findById(req.params.id);
+
+  if (patient) {
+    const bloodsugar = {
+      sugar,
+      time,
+      user: req.user._id,
+    };
+    patient.bloodsugar.push(bloodsugar);
+    await patient.save();
+    res.status(201).json({ message: "Blood sugar added" });
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
+const createPatientSaturation = asyncHandler(async (req, res) => {
+  const { sat, time } = req.body;
+
+  const patient = await Patient.findById(req.params.id);
+
+  if (patient) {
+    const saturation = {
+      sat,
+      time,
+      user: req.user._id,
+    };
+    patient.saturation.push(saturation);
+    await patient.save();
+    res.status(201).json({ message: "Saturation added" });
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
 export {
   getPatients,
   getPatientById,
@@ -156,4 +197,6 @@ export {
   updatePatient,
   createPatientBloodpressure,
   createPatientHeartrate,
+  createPatientBloodsugar,
+  createPatientSaturation,
 };

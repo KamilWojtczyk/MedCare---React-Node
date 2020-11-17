@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Form, Card, Row, Col, Nav } from "react-bootstrap";
@@ -12,9 +12,6 @@ const PatientInfo = ({ match }) => {
 
   const patientDetails = useSelector((state) => state.patientDetails);
   const { loading, error, patient } = patientDetails;
-
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
 
   useEffect(() => {
     dispatch(listPatientDetails(match.params.id));
@@ -48,22 +45,22 @@ const PatientInfo = ({ match }) => {
                 <LinkContainer
                   to={`/admin/patientlist/${patient._id}/bloodpressure`}
                 >
-                  <Nav.Link eventKey="link-1">Blood Pressure</Nav.Link>
+                  <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
                 </LinkContainer>
                 <LinkContainer
                   to={`/admin/patientlist/${patient._id}/heartrate`}
                 >
-                  <Nav.Link eventKey="link-1">Heart Rate</Nav.Link>
+                  <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
                 </LinkContainer>
                 <LinkContainer
                   to={`/admin/patientlist/${patient._id}/bloodsugar`}
                 >
-                  <Nav.Link eventKey="link-1">Blood Sugar</Nav.Link>
+                  <Nav.Link eventKey="bloodsugar">Blood Sugar</Nav.Link>
                 </LinkContainer>
                 <LinkContainer
                   to={`/admin/patientlist/${patient._id}/saturation`}
                 >
-                  <Nav.Link eventKey="link-1">Saturation</Nav.Link>
+                  <Nav.Link eventKey="saturation">Saturation</Nav.Link>
                 </LinkContainer>
               </Nav>
             </Card.Header>

@@ -1,24 +1,46 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { Card, Col, Row, Nav } from "react-bootstrap";
-import { listPatientDetails } from "../actions/patientActions";
+import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
+import {
+  listPatientDetails,
+  createPatientHeartrate,
+} from "../actions/patientActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import { PATIENT_CREATE_HEARTRATE_RESET } from "../constants/patientConstants";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Heart = ({ match }) => {
+  const [heart, setHeart] = useState("");
+  const [time, setTime] = useState("");
+
   const dispatch = useDispatch();
 
   const patientDetails = useSelector((state) => state.patientDetails);
   const { loading, error, patient } = patientDetails;
 
-  const userLogin = useSelector((state) => state.userLogin);
-  const { userInfo } = userLogin;
+  const patientHeartrateCreate = useSelector(
+    (state) => state.patientHeartrateCreate
+  );
+  const {
+    success: successPatientHeartrate,
+    error: errorPatientHeartrate,
+  } = patientHeartrateCreate;
 
   useEffect(() => {
+    if (successPatientHeartrate) {
+      setHeart("");
+      setTime("");
+      dispatch({ type: PATIENT_CREATE_HEARTRATE_RESET });
+    }
     dispatch(listPatientDetails(match.params.id));
-  }, [dispatch, match]);
+  }, [dispatch, match, successPatientHeartrate]);
+
+  const submitHandler = (e) => {
+    e.preventDefault();
+    dispatch(createPatientHeartrate(match.params.id, { heart, time }));
+  };
 
   return (
     <>
@@ -41,35 +63,91 @@ const Heart = ({ match }) => {
           <Card.Header>
             <Nav variant="pills">
               <LinkContainer to={`/admin/patientlist/${patient._id}`}>
-                <Nav.Link>Personal Informations</Nav.Link>
+                <Nav.Link eventKey="personal informations">
+                  Personal Informations
+                </Nav.Link>
               </LinkContainer>
               <LinkContainer
                 to={`/admin/patientlist/${patient._id}/bloodpressure`}
               >
-                <Nav.Link eventKey="link-1">Blood Pressure</Nav.Link>
+                <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
               </LinkContainer>
               <LinkContainer to={`/admin/patientlist/${patient._id}/heartrate`}>
-                <Nav.Link eventKey="link-1">Heart Rate</Nav.Link>
+                <Nav.Link>Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
                 to={`/admin/patientlist/${patient._id}/bloodsugar`}
               >
-                <Nav.Link eventKey="link-1">Blood Sugar</Nav.Link>
+                <Nav.Link eventKey="bloodsugar">Blood Sugar</Nav.Link>
               </LinkContainer>
               <LinkContainer
                 to={`/admin/patientlist/${patient._id}/saturation`}
               >
-                <Nav.Link eventKey="link-1">Saturation</Nav.Link>
+                <Nav.Link eventKey="saturation">Saturation</Nav.Link>
               </LinkContainer>
             </Nav>
           </Card.Header>
           <Card.Body>
-            {patient.heartrate.map((heartrate) => (
-              <Row key={heartrate._id} className="text-center">
-                <Col as="h5">Measurement: {heartrate.heart}/min</Col>
-                <Col as="h5">Date: {heartrate.time}</Col>
-              </Row>
-            ))}
+            <h2>Heart rate Measurement</h2>
+            {errorPatientHeartrate && (
+              <Message variant="danger">{errorPatientHeartrate}</Message>
+            )}
+            <Form onSubmit={submitHandler}>
+              <Form.Row>
+                <Form.Group as={Col} variant="flush" controlId="heartrate">
+                  <Form.Label>Heart Rate</Form.Label>
+                  <Form.Control
+                    type="text"
+                    maxLength="2"
+                    pattern="^[0-9]*"
+                    data-mask="99"
+                    placeholder="Enter heart rate measure"
+                    value={heart}
+                    onChange={(e) => setHeart(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+
+                <Form.Group as={Col} variant="flush" controlId="time">
+                  <Form.Label>Date time</Form.Label>
+                  <Form.Control
+                    type="datetime-local"
+                    placeholder="Enter date time"
+                    value={time}
+                    onChange={(e) => setTime(e.target.value)}
+                  ></Form.Control>
+                </Form.Group>
+              </Form.Row>
+              <Button
+                className="my-1"
+                size="sm"
+                type="submit"
+                variant="primary"
+              >
+                Submit
+              </Button>
+            </Form>
+            {patient.heartrate.length === 0 ? (
+              <Message>No measurement</Message>
+            ) : (
+              <Table striped bordered hover responsive className="table-sm">
+                <thead>
+                  <tr>
+                    <th>ID</th>
+                    <th>Measure</th>
+                    <th>Date</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {patient.heartrate.reverse().map((heartrate) => (
+                    <tr key={heartrate._id}>
+                      <td>{heartrate._id}</td>
+                      <td>{heartrate.heart}</td>
+                      <td>{heartrate.time}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </Table>
+            )}
           </Card.Body>
         </Card>
       )}

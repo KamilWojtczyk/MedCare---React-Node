@@ -17,7 +17,7 @@ const bloodpressureSchema = mongoose.Schema(
 
 const bloodsugarSchema = mongoose.Schema(
   {
-    bloodsugar: { type: String, required: true },
+    sugar: { type: String, required: true },
     time: { type: String, required: true },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -47,7 +47,7 @@ const heartrateSchema = mongoose.Schema(
 
 const saturationSchema = mongoose.Schema(
   {
-    saturation: { type: String, required: true },
+    sat: { type: String, required: true },
     time: { type: String, required: true },
     user: {
       type: mongoose.Schema.Types.ObjectId,

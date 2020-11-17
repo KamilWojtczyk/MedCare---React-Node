@@ -25,6 +25,14 @@ import {
   PATIENT_CREATE_HEARTRATE_SUCCESS,
   PATIENT_CREATE_HEARTRATE_FAIL,
   PATIENT_CREATE_HEARTRATE_RESET,
+  PATIENT_CREATE_BLOODSUGAR_REQUEST,
+  PATIENT_CREATE_BLOODSUGAR_SUCCESS,
+  PATIENT_CREATE_BLOODSUGAR_FAIL,
+  PATIENT_CREATE_BLOODSUGAR_RESET,
+  PATIENT_CREATE_SATURATION_REQUEST,
+  PATIENT_CREATE_SATURATION_SUCCESS,
+  PATIENT_CREATE_SATURATION_FAIL,
+  PATIENT_CREATE_SATURATION_RESET,
 } from "../constants/patientConstants";
 
 export const patientlistReducer = (state = { patients: [] }, action) => {
@@ -132,6 +140,36 @@ export const patientHeartrateCreateReducer = (state = {}, action) => {
     case PATIENT_CREATE_HEARTRATE_FAIL:
       return { loading: false, error: action.payload };
     case PATIENT_CREATE_HEARTRATE_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const patientBloodsugarCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_CREATE_BLOODSUGAR_REQUEST:
+      return { loading: true };
+    case PATIENT_CREATE_BLOODSUGAR_SUCCESS:
+      return { loading: false, success: true };
+    case PATIENT_CREATE_BLOODSUGAR_FAIL:
+      return { loading: false, error: action.payload };
+    case PATIENT_CREATE_BLOODSUGAR_RESET:
+      return {};
+    default:
+      return state;
+  }
+};
+
+export const patientSaturationCreateReducer = (state = {}, action) => {
+  switch (action.type) {
+    case PATIENT_CREATE_SATURATION_REQUEST:
+      return { loading: true };
+    case PATIENT_CREATE_SATURATION_SUCCESS:
+      return { loading: false, success: true };
+    case PATIENT_CREATE_SATURATION_FAIL:
+      return { loading: false, error: action.payload };
+    case PATIENT_CREATE_SATURATION_RESET:
       return {};
     default:
       return state;
