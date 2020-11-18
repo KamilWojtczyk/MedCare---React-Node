@@ -7,9 +7,9 @@ import "./PatientItem.css";
 const PatientItem = ({ patient }) => {
   return (
     <Card className="my-3 p-3 border-dark rounded user-item">
-      <Link to={`/admin/patientlist/${patient._id}`}>
+      <Link className="disabled-link" to="">
         <Row>
-          <Col as="h5" className="user-item-Col">
+          <Col md="auto" as="h5" className="user-item-Col">
             Name: {patient.name}
           </Col>
           <Col as="h5" className="user-item-Col">
@@ -18,7 +18,7 @@ const PatientItem = ({ patient }) => {
           <Col as="h5" className="user-item-Col">
             Sex: {patient.sex}
           </Col>
-          <Col as="h5" className="user-item-Col">
+          <Col md="auto" as="h5" className="user-item-Col">
             Birth: {patient.birth}
           </Col>
         </Row>

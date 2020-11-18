@@ -6,7 +6,7 @@ import { listPatients } from "../actions/patientActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
-const PatientsScreen = () => {
+const PatientsScreenUser = () => {
   const dispatch = useDispatch();
 
   const patientList = useSelector((state) => state.patientList);
@@ -36,4 +36,4 @@ const PatientsScreen = () => {
   );
 };
 
-export default PatientsScreen;
+export default PatientsScreenUser;

@@ -32,6 +32,10 @@ h2 {
   color: #fdcb6e !important;
 }
 
+.dropdown:hover > .dropdown-menu {
+  display: block;
+}
+
 #topNav {
   background-color: #efefef;
 }

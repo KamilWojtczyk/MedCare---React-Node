@@ -80,13 +80,6 @@ const updatePatient = asyncHandler(async (req, res) => {
     isArchived,
   } = req.body;
 
-  const peselExists = await Patient.findOne({ pesel });
-
-  if (peselExists) {
-    res.status(400);
-    throw new Error("Patient with that pesel already exists");
-  }
-
   const patient = await Patient.findById(req.params.id);
 
   if (patient) {

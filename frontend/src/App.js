@@ -11,7 +11,7 @@ import LoginScreen from "./screens/LoginScreen";
 import RegisterScreen from "./screens/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import PatientInfo from "./screens/PatientInfo";
-import PatientsScreen from "./screens/PatientsScreen";
+import PatientsScreenUser from "./screens/PatientsScreenUser";
 import HomeScreen from "./screens/HomeScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
@@ -31,7 +31,7 @@ const App = () => {
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/profile" component={ProfileScreen} />
-          <Route path="/patients" component={PatientsScreen} exact />
+          <Route path="/patients" component={PatientsScreenUser} exact />
           <Route
             path="/admin/patientlist"
             component={PatientListScreen}
