@@ -27,10 +27,7 @@ const App = () => {
       <main className="py-3">
         <Container>
           <Route path="/" component={HomeScreen} exact />
-          <Route
-            path="/admin/patientlist/search/:keyword"
-            component={PatientListScreen}
-          />
+
           <Route path="/about" component={About} />
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
@@ -41,8 +38,23 @@ const App = () => {
             component={PatientListScreen}
             exact
           />
-          <Route path="/admin/patientlist/:id" component={PatientInfo} exact />
+          <Route
+            path="/admin/patientlist/search/:keyword"
+            component={PatientListScreen}
+            exact
+          />
+          <Route
+            path="/admin/patientlist/page/:pageNumber"
+            component={PatientListScreen}
+            exact
+          />
+          <Route
+            path="/admin/patientlist/search/:keyword/page/:pageNumber"
+            component={PatientListScreen}
+            exact
+          />
           <Route path="/admin/patient/:id/edit" component={PatientEditScreen} />
+          <Route path="/admin/patientlist/:id" component={PatientInfo} exact />
           <Route
             path="/admin/patientlist/:id/bloodpressure"
             component={Blood}

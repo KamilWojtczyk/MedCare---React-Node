@@ -91,33 +91,30 @@ const Blood = ({ match }) => {
             {errorPatientBloodpressure && (
               <Message variant="danger">{errorPatientBloodpressure}</Message>
             )}
-            <Form onSubmit={submitHandler}>
-              <Form.Row>
-                <Form.Group as={Col} variant="flush" controlId="blood">
-                  <Form.Label>Blood pressure</Form.Label>
-                  <Form.Control
-                    type="text"
-                    maxLength="6"
-                    pattern="^[0-9]*\d{3}[\/]?\d{2}"
-                    data-mask="999/99"
-                    placeholder="Enter Blood pressure measure"
-                    value={blood}
-                    onChange={(e) => setBlood(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
+            <h5>Add new Measure</h5>
+            <Form className="mb-sm-2" inline onSubmit={submitHandler}>
+              <Form.Control
+                style={{ width: "250px" }}
+                className="mr-sm-2"
+                type="text"
+                maxLength="6"
+                pattern="^[0-9]*\d{3}[\/]?\d{2}"
+                data-mask="999/99"
+                placeholder="Entere Blood pressure measure"
+                value={blood}
+                onChange={(e) => setBlood(e.target.value)}
+              ></Form.Control>
 
-                <Form.Group as={Col} variant="flush" controlId="time">
-                  <Form.Label>Date time</Form.Label>
-                  <Form.Control
-                    type="datetime-local"
-                    placeholder="Enter date time"
-                    value={time}
-                    onChange={(e) => setTime(e.target.value)}
-                  ></Form.Control>
-                </Form.Group>
-              </Form.Row>
+              <Form.Control
+                className="mr-sm-2"
+                type="datetime-local"
+                placeholder="Enter date time"
+                value={time}
+                onChange={(e) => setTime(e.target.value)}
+              ></Form.Control>
+
               <Button
-                className="my-1"
+                className="mr-sm-2"
                 size="sm"
                 type="submit"
                 variant="primary"

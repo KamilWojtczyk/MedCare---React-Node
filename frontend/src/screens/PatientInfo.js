@@ -198,7 +198,7 @@ const PatientInfo = ({ match }) => {
                 <Message>No Notes</Message>
               ) : (
                 <ListGroup variant="flush">
-                  {patient.comment.map((comment) => (
+                  {patient.comment.reverse().map((comment) => (
                     <ListGroupItem key={comment._id}>
                       <h5>Added by: {comment.name}</h5>
                       <h5>{comment.createdAt.substring(0, 10)}</h5>

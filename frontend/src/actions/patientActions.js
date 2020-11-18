@@ -32,7 +32,10 @@ import {
   PATIENT_CREATE_COMMENT_FAIL,
 } from "../constants/patientConstants";
 
-export const listPatients = (keyword = "") => async (dispatch, getState) => {
+export const listPatients = (keyword = "", pageNumber = "") => async (
+  dispatch,
+  getState
+) => {
   try {
     dispatch({ type: PATIENT_LIST_REQUEST });
 
@@ -47,7 +50,7 @@ export const listPatients = (keyword = "") => async (dispatch, getState) => {
     };
 
     const { data } = await axios.get(
-      `/api/patients?keyword=${keyword}`,
+      `/api/patients?keyword=${keyword}&pageNumber=${pageNumber}`,
       config
     );
 

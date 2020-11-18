@@ -14,6 +14,7 @@ import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import SearchBox from "../components/SearchBox";
+import Paginate from "../components/Paginate";
 import {
   listPatients,
   deletePatient,
@@ -24,10 +25,12 @@ import { PATIENT_CREATE_RESET } from "../constants/patientConstants";
 const PatientListScreen = ({ match, history }) => {
   const keyword = match.params.keyword;
 
+  const pageNumber = match.params.pageNumber || 1;
+
   const dispatch = useDispatch();
 
   const patientList = useSelector((state) => state.patientList);
-  const { loading, error, patients } = patientList;
+  const { loading, error, patients, page, pages } = patientList;
 
   const userLogin = useSelector((state) => state.userLogin);
   const { userInfo } = userLogin;
@@ -56,7 +59,7 @@ const PatientListScreen = ({ match, history }) => {
     if (successCreate) {
       history.push(`/admin/patient/${createdPatient._id}/edit`);
     } else {
-      dispatch(listPatients(keyword));
+      dispatch(listPatients(keyword, pageNumber));
     }
   }, [
     dispatch,
@@ -66,6 +69,7 @@ const PatientListScreen = ({ match, history }) => {
     successCreate,
     createdPatient,
     keyword,
+    pageNumber,
   ]);
 
   const deleteHandler = (id) => {
@@ -79,10 +83,8 @@ const PatientListScreen = ({ match, history }) => {
 
   return (
     <>
+      <h1>Patients List</h1>
       <Row className="align-items-center">
-        <Col>
-          <h1>Patients List</h1>
-        </Col>
         <Col>
           <Route render={({ history }) => <SearchBox history={history} />} />
         </Col>
@@ -101,107 +103,124 @@ const PatientListScreen = ({ match, history }) => {
       ) : error ? (
         <Message variant="danger">{error}</Message>
       ) : (
-        <ListGroup>
-          <ListGroupItem className="border-dark">
-            {patients.map((patient) => (
-              <Row key={patient._id} className="align-items-center">
-                {patient.isArchived ? (
-                  <>
-                    <Col>
-                      <Card className="my-3 p-3 border-dark rounded patient-item">
-                        <Link
-                          style={{ background: "#dddddd" }}
-                          className="disabled-link"
-                          to={`/admin/patientlist/${patient._id}`}
-                        >
-                          <Row>
-                            <Col
-                              md="auto"
-                              as="h5"
-                              className="text-center patient-item-Col"
-                            >
-                              Name: {patient.name}
-                            </Col>
-                            <Col
-                              as="h5"
-                              className="text-center patient-item-Col"
-                            >
-                              Age: {patient.age}
-                            </Col>
-                            <Col
-                              as="h5"
-                              className="text-center patient-item-Col"
-                            >
-                              Sex: {patient.sex}
-                            </Col>
-                            <Col
-                              md="auto"
-                              as="h5"
-                              className="text-center patient-item-Col"
-                            >
-                              Birth: {patient.birth}
-                            </Col>
-                          </Row>
-                        </Link>
-                      </Card>
-                    </Col>
-                  </>
-                ) : (
-                  <>
-                    <Col>
-                      <Card className="my-3 p-3 border-dark rounded patient-item">
-                        <Link to={`/admin/patientlist/${patient._id}`}>
-                          <Row>
-                            <Col
-                              md="auto"
-                              as="h5"
-                              className="text-center patient-item-Col"
-                            >
-                              Name: {patient.name}
-                            </Col>
-                            <Col
-                              as="h5"
-                              className="text-center patient-item-Col"
-                            >
-                              Age: {patient.age}
-                            </Col>
-                            <Col
-                              as="h5"
-                              className="text-center patient-item-Col"
-                            >
-                              Sex: {patient.sex}
-                            </Col>
-                            <Col
-                              md="auto"
-                              as="h5"
-                              className="text-center patient-item-Col"
-                            >
-                              Birth: {patient.birth}
-                            </Col>
-                          </Row>
-                        </Link>
-                      </Card>
-                    </Col>
-                  </>
-                )}
-                <Col md="auto" className="text-right">
-                  <LinkContainer to={`/admin/patient/${patient._id}/edit`}>
-                    <Button id="button" variant="secondary" className="btn-sm">
-                      <i className="fas fa-edit"></i>
+        <>
+          <ListGroup>
+            <ListGroupItem className="border-dark">
+              {patients.map((patient) => (
+                <Row key={patient._id} className="align-items-center">
+                  {patient.isArchived ? (
+                    <>
+                      <Col>
+                        <Card className="my-3 p-3 border-dark rounded patient-item">
+                          <Link
+                            style={{ background: "#dddddd" }}
+                            className="disabled-link"
+                            to={`/admin/patientlist/${patient._id}`}
+                          >
+                            <Row>
+                              <Col
+                                md="auto"
+                                as="h5"
+                                className="text-center patient-item-Col"
+                              >
+                                Name: {patient.name}
+                              </Col>
+                              <Col
+                                as="h5"
+                                className="text-center patient-item-Col"
+                              >
+                                Age: {patient.age}
+                              </Col>
+                              <Col
+                                as="h5"
+                                className="text-center patient-item-Col"
+                              >
+                                Sex: {patient.sex}
+                              </Col>
+                              <Col
+                                md="auto"
+                                as="h5"
+                                className="text-center patient-item-Col"
+                              >
+                                Birth: {patient.birth}
+                              </Col>
+                            </Row>
+                          </Link>
+                        </Card>
+                      </Col>
+                    </>
+                  ) : (
+                    <>
+                      <Col>
+                        <Card className="my-2  border-dark rounded patient-item">
+                          <Link to={`/admin/patientlist/${patient._id}`}>
+                            <Row>
+                              <Col
+                                md="auto"
+                                as="h5"
+                                className="text-center patient-item-Col"
+                              >
+                                Name: {patient.name}
+                              </Col>
+                              <Col
+                                as="h5"
+                                className="text-center patient-item-Col"
+                              >
+                                Age: {patient.age}
+                              </Col>
+                              <Col
+                                as="h5"
+                                className="text-center patient-item-Col"
+                              >
+                                Sex: {patient.sex}
+                              </Col>
+                              <Col
+                                md="auto"
+                                as="h5"
+                                className="text-center patient-item-Col"
+                              >
+                                Birth: {patient.birth}
+                              </Col>
+                            </Row>
+                          </Link>
+                        </Card>
+                      </Col>
+                    </>
+                  )}
+                  <Col md="auto" className="text-right">
+                    <LinkContainer to={`/admin/patient/${patient._id}/edit`}>
+                      <Button
+                        id="editbutton"
+                        variant="secondary"
+                        className="btn-sm"
+                      >
+                        <i className="fas fa-edit"></i>
+                      </Button>
+                    </LinkContainer>
+                    <Button
+                      variant="danger"
+                      className="btn-sm"
+                      onClick={() => deleteHandler(patient._id)}
+                    >
+                      <i className="fas fa-trash"></i>
                     </Button>
-                  </LinkContainer>
-                  <Button
-                    variant="danger"
-                    className="btn-sm"
-                    onClick={() => deleteHandler(patient._id)}
-                  >
-                    <i className="fas fa-trash"></i>
-                  </Button>
-                </Col>
-              </Row>
-            ))}
-          </ListGroupItem>
-        </ListGroup>
+                  </Col>
+                </Row>
+              ))}
+            </ListGroupItem>
+          </ListGroup>
+          <Row>
+            <Col></Col>
+            <Col>
+              <Paginate
+                pages={pages}
+                page={page}
+                keyword={keyword ? keyword : ""}
+              />
+            </Col>
+            <Col></Col>
+          </Row>
+        </>
       )}
     </>
   );

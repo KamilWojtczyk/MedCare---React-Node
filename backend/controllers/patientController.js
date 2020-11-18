@@ -5,6 +5,8 @@ import Patient from "../models/patientModel.js";
 // @route Get /api/patients
 // @access Private
 const getPatients = asyncHandler(async (req, res) => {
+  const pageSize = 9;
+  const page = Number(req.query.pageNumber) || 1;
   const keyword = req.query.keyword
     ? {
         name: {
@@ -14,9 +16,14 @@ const getPatients = asyncHandler(async (req, res) => {
       }
     : {};
 
-  const patients = await Patient.find({ ...keyword });
+  const count = await Patient.countDocuments({ ...keyword });
+
+  const patients = await Patient.find({ ...keyword })
+    .limit(pageSize)
+    .skip(pageSize * (page - 1));
+
   patients.sort();
-  res.json(patients);
+  res.json({ patients, page, pages: Math.ceil(count / pageSize) });
 });
 
 // @desc Fetch single patients
@@ -41,7 +48,7 @@ const deletePatient = asyncHandler(async (req, res) => {
 
   if (patient) {
     await patient.remove();
-    res.json({ message: "Product removed" });
+    res.json({ message: "Patient removed" });
   } else {
     res.status(404);
     throw new Error("Patient not found");
