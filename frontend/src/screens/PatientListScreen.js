@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { Route } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { LinkContainer } from "react-router-bootstrap";
 import {
@@ -12,6 +13,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
+import SearchBox from "../components/SearchBox";
 import {
   listPatients,
   deletePatient,
@@ -19,7 +21,9 @@ import {
 } from "../actions/patientActions";
 import { PATIENT_CREATE_RESET } from "../constants/patientConstants";
 
-const PatientListScreen = ({ history }) => {
+const PatientListScreen = ({ match, history }) => {
+  const keyword = match.params.keyword;
+
   const dispatch = useDispatch();
 
   const patientList = useSelector((state) => state.patientList);
@@ -52,7 +56,7 @@ const PatientListScreen = ({ history }) => {
     if (successCreate) {
       history.push(`/admin/patient/${createdPatient._id}/edit`);
     } else {
-      dispatch(listPatients());
+      dispatch(listPatients(keyword));
     }
   }, [
     dispatch,
@@ -61,6 +65,7 @@ const PatientListScreen = ({ history }) => {
     successDelete,
     successCreate,
     createdPatient,
+    keyword,
   ]);
 
   const deleteHandler = (id) => {
@@ -77,6 +82,9 @@ const PatientListScreen = ({ history }) => {
       <Row className="align-items-center">
         <Col>
           <h1>Patients List</h1>
+        </Col>
+        <Col>
+          <Route render={({ history }) => <SearchBox history={history} />} />
         </Col>
         <Col className="text-right">
           <Button className="my-3" onClick={createPatientHandler}>

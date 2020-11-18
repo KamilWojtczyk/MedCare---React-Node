@@ -5,7 +5,16 @@ import Patient from "../models/patientModel.js";
 // @route Get /api/patients
 // @access Private
 const getPatients = asyncHandler(async (req, res) => {
-  const patients = await Patient.find({});
+  const keyword = req.query.keyword
+    ? {
+        name: {
+          $regex: req.query.keyword,
+          $options: "i",
+        },
+      }
+    : {};
+
+  const patients = await Patient.find({ ...keyword });
   patients.sort();
   res.json(patients);
 });

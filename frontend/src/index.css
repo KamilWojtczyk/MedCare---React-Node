@@ -36,10 +36,6 @@ h2 {
   display: block;
 }
 
-#topNav {
-  background-color: #efefef;
-}
-
 .patient-item a {
   text-decoration: none;
   text-align: center;
@@ -58,7 +54,14 @@ h2 {
   color: #292929;
 }
 
-#button {
+#searchbutton:hover {
+  background: #292929;
+}
+#searchbutton:hover {
+  color: #ffd900;
+}
+
+#editbutton {
   background-color: #f5f5f5;
 }
 
