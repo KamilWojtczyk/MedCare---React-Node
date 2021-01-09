@@ -22,6 +22,9 @@ import {
   userDeleteReducer,
   userUpdateReducer,
 } from "./reducers/userReducers";
+import {
+  dataListReducer,
+} from "./reducers/dataReducers";
 
 const reducer = combineReducers({
   patientList: patientlistReducer,
@@ -41,6 +44,7 @@ const reducer = combineReducers({
   userList: userListReducer,
   userDelete: userDeleteReducer,
   userUpdate: userUpdateReducer,
+  dataList: dataListReducer,
 });
 
 const userInfoFromStorage = localStorage.getItem("userInfo")

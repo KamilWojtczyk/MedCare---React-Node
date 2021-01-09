@@ -1,0 +1,4 @@
+export const DATA_LIST_REQUEST = "DATA_LIST_REQUEST";
+export const DATA_LIST_SUCCES = "DATA_LIST_SUCCES";
+export const DATA_LIST_FAIL = "DATA_LIST_FAIL";
+export const DATA_LIST_RESET = "USER_LIST_RESET";

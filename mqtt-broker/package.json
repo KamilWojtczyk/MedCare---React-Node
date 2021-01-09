@@ -1,0 +1,11 @@
+{
+    "name": "mqtt-broker",
+    "description": "This NodeJS application listens to MQTT messages and records them to MongoDB",
+    "author": "Kamil Wojtczyk",
+    "license": "MIT",
+    "version": "1.0.0",
+    "dependencies": {
+        "mqtt": "2.13.0",
+        "mongodb": "2.2.31"
+    }
+}

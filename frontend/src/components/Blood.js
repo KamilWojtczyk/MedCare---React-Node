@@ -6,6 +6,9 @@ import {
   listPatientDetails,
   createPatientBloodpressure,
 } from "../actions/patientActions";
+import {
+  listData,
+} from "../actions/dataActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { PATIENT_CREATE_BLOODPRESSURE_RESET } from "../constants/patientConstants";
@@ -19,6 +22,9 @@ const Blood = ({ match }) => {
 
   const patientDetails = useSelector((state) => state.patientDetails);
   const { loading, error, patient } = patientDetails;
+
+  const dataList = useSelector((state) => state.dataList);
+  const { data} = dataList;
 
   const patientBloodpressureCreate = useSelector(
     (state) => state.patientBloodpressureCreate
@@ -34,6 +40,7 @@ const Blood = ({ match }) => {
       setTime("");
       dispatch({ type: PATIENT_CREATE_BLOODPRESSURE_RESET });
     }
+    dispatch(listData());
     dispatch(listPatientDetails(match.params.id));
   }, [dispatch, match, successPatientBloodpressure]);
 

@@ -7,6 +7,7 @@ import connectDB from "./config/db.js";
 
 import patientRoutes from "./routes/patientRoutes.js";
 import userRoutes from "./routes/userRoutes.js";
+import dataRoutes from "./routes/dataRoutes.js";
 
 dotenv.config();
 
@@ -26,6 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/patients", patientRoutes);
 app.use("/api/users", userRoutes);
+app.use("/data", dataRoutes);
 
 app.use(notFound);
 
