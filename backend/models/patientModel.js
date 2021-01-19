@@ -18,7 +18,8 @@ const commentSchema = mongoose.Schema(
 
 const bloodpressureSchema = mongoose.Schema(
   {
-    blood: { type: String, required: true },
+    systolic: { type: Number, required: true },
+    diastolic: { type: Number, required: true },
     time: { type: String, required: true },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -33,7 +34,7 @@ const bloodpressureSchema = mongoose.Schema(
 
 const bloodsugarSchema = mongoose.Schema(
   {
-    sugar: { type: String, required: true },
+    sugar: { type: Number, required: true },
     time: { type: String, required: true },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -48,7 +49,7 @@ const bloodsugarSchema = mongoose.Schema(
 
 const heartrateSchema = mongoose.Schema(
   {
-    heart: { type: String, required: true },
+    heart: { type: Number, required: true },
     time: { type: String, required: true },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -63,7 +64,7 @@ const heartrateSchema = mongoose.Schema(
 
 const saturationSchema = mongoose.Schema(
   {
-    sat: { type: String, required: true },
+    sat: { type: Number, required: true },
     time: { type: String, required: true },
     user: {
       type: mongoose.Schema.Types.ObjectId,
@@ -86,10 +87,6 @@ const patientSchema = mongoose.Schema(
     },
     name: {
       type: String,
-      required: true,
-    },
-    age: {
-      type: Number,
       required: true,
     },
     sex: {

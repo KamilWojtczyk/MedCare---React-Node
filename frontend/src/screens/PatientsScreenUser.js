@@ -1,24 +1,38 @@
 import React, { useEffect } from "react";
+import { Route } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { ListGroupItem, ListGroup } from "react-bootstrap";
+import SearchBoxUsers from "../components/SearchBoxUsers";
+import Paginate from "../components/Paginate";
+import { ListGroupItem, ListGroup, Row, Col } from "react-bootstrap";
 import PatientItem from "../components/PatientItem";
 import { listPatients } from "../actions/patientActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 
-const PatientsScreenUser = () => {
+const PatientsScreenUser = ({ match, history }) => {
+  const keyword = match.params.keyword;
+
+  const pageNumber = match.params.pageNumber || 1;
+
   const dispatch = useDispatch();
 
   const patientList = useSelector((state) => state.patientList);
-  const { loading, error, patients } = patientList;
+  const { loading, error, patients, page, pages } = patientList;
 
   useEffect(() => {
-    dispatch(listPatients());
-  }, [dispatch]);
+    dispatch(listPatients(keyword, pageNumber));
+  }, [dispatch, history, keyword, pageNumber]);
 
   return (
     <>
       <h1>Patients list</h1>
+      <Row className="align-items-center">
+        <Col>
+          <Route
+            render={({ history }) => <SearchBoxUsers history={history} />}
+          />
+        </Col>
+      </Row>
       {loading ? (
         <Loader />
       ) : error ? (
@@ -32,6 +46,17 @@ const PatientsScreenUser = () => {
           </ListGroupItem>
         </ListGroup>
       )}
+      <Row>
+        <Col></Col>
+        <Col>
+          <Paginate
+            pages={pages}
+            page={page}
+            keyword={keyword ? keyword : ""}
+          />
+        </Col>
+        <Col></Col>
+      </Row>
     </>
   );
 };

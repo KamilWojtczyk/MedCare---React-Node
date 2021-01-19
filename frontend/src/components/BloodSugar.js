@@ -12,7 +12,7 @@ import { PATIENT_CREATE_BLOODSUGAR_RESET } from "../constants/patientConstants";
 import { LinkContainer } from "react-router-bootstrap";
 
 const BloodSugar = ({ match }) => {
-  const [sugar, setSugar] = useState("");
+  const [sugar, setSugar] = useState();
   const [time, setTime] = useState("");
 
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ const BloodSugar = ({ match }) => {
               <Form.Control
                 style={{ width: "250px" }}
                 className="mr-sm-2"
-                type="text"
+                type="number"
                 maxLength="2"
                 pattern="^[0-9]*"
                 data-mask="99"
@@ -138,7 +138,17 @@ const BloodSugar = ({ match }) => {
                   {patient.bloodsugar.reverse().map((sugar) => (
                     <tr key={sugar._id}>
                       <td>{sugar._id}</td>
-                      <td>{sugar.sugar}</td>
+                      <td>
+                        {sugar.sugar >= 70 && sugar.sugar <= 125 ? (
+                          <span style={{ color: "green" }}>
+                            {sugar.sugar}mg/dL - the measurement is normal
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {sugar.sugar}mg/dL - the measurement is below normal
+                          </span>
+                        )}
+                      </td>
                       <td>{sugar.time}</td>
                     </tr>
                   ))}

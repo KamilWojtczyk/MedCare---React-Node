@@ -12,7 +12,7 @@ import { PATIENT_CREATE_SATURATION_RESET } from "../constants/patientConstants";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Saturation = ({ match }) => {
-  const [sat, setSat] = useState("");
+  const [sat, setSat] = useState();
   const [time, setTime] = useState("");
 
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ const Saturation = ({ match }) => {
               <Form.Control
                 style={{ width: "250px" }}
                 className="mr-sm-2"
-                type="text"
+                type="number"
                 maxLength="2"
                 pattern="^[0-9]*"
                 data-mask="99"
@@ -138,7 +138,17 @@ const Saturation = ({ match }) => {
                   {patient.saturation.reverse().map((sat) => (
                     <tr key={sat._id}>
                       <td>{sat._id}</td>
-                      <td>{sat.sat}</td>
+                      <td>
+                        {sat.sat >= 95 ? (
+                          <span style={{ color: "green" }}>
+                            {sat.sat}% - the measurement is normal{" "}
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {sat.sat}% - the measurement is below normal
+                          </span>
+                        )}
+                      </td>
                       <td>{sat.time}</td>
                     </tr>
                   ))}

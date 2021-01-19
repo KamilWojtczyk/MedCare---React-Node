@@ -6,24 +6,26 @@ import "./PatientItem.css";
 
 const PatientItem = ({ patient }) => {
   return (
-    <Card className="my-3 p-3 border-dark rounded user-item">
-      <Link className="disabled-link" to="">
-        <Row>
-          <Col md="auto" as="h5" className="user-item-Col">
-            Name: {patient.name}
-          </Col>
-          <Col as="h5" className="user-item-Col">
-            Age: {patient.age}
-          </Col>
-          <Col as="h5" className="user-item-Col">
-            Sex: {patient.sex}
-          </Col>
-          <Col md="auto" as="h5" className="user-item-Col">
-            Birth: {patient.birth}
-          </Col>
-        </Row>
-      </Link>
-    </Card>
+    <Col>
+      <Card className="my-2  border-dark rounded patient-item">
+        <Link
+          className="disabled-link"
+          to={`/admin/patientlist/${patient._id}`}
+        >
+          <Row className="d-flex justify-content-between align-items-center">
+            <Col as="h5" className="text-left patient-item-Col">
+              Name: {patient.name}
+            </Col>
+            <Col as="h5" className="text-center patient-item-Col">
+              Sex: {patient.sex}
+            </Col>
+            <Col as="h5" className="text-right patient-item-Col">
+              Birth: {patient.birth}
+            </Col>
+          </Row>
+        </Link>
+      </Card>
+    </Col>
   );
 };
 

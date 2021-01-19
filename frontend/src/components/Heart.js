@@ -12,7 +12,7 @@ import { PATIENT_CREATE_HEARTRATE_RESET } from "../constants/patientConstants";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Heart = ({ match }) => {
-  const [heart, setHeart] = useState("");
+  const [heart, setHeart] = useState();
   const [time, setTime] = useState("");
 
   const dispatch = useDispatch();
@@ -97,7 +97,7 @@ const Heart = ({ match }) => {
               <Form.Control
                 style={{ width: "250px" }}
                 className="mr-sm-2"
-                type="text"
+                type="number"
                 maxLength="2"
                 pattern="^[0-9]*"
                 data-mask="99"
@@ -138,7 +138,18 @@ const Heart = ({ match }) => {
                   {patient.heartrate.reverse().map((heartrate) => (
                     <tr key={heartrate._id}>
                       <td>{heartrate._id}</td>
-                      <td>{heartrate.heart}</td>
+                      <td>
+                        {heartrate.heart >= 70 && heartrate.heart <= 100 ? (
+                          <span style={{ color: "green" }}>
+                            {heartrate.heart}bpm - the measurement is normal
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {heartrate.heart}bpm- the measurement is below
+                            normal
+                          </span>
+                        )}
+                      </td>
                       <td>{heartrate.time}</td>
                     </tr>
                   ))}

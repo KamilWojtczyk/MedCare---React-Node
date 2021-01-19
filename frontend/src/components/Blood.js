@@ -6,16 +6,15 @@ import {
   listPatientDetails,
   createPatientBloodpressure,
 } from "../actions/patientActions";
-import {
-  listData,
-} from "../actions/dataActions";
+import { listData } from "../actions/dataActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { PATIENT_CREATE_BLOODPRESSURE_RESET } from "../constants/patientConstants";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Blood = ({ match }) => {
-  const [blood, setBlood] = useState("");
+  const [systolic, setSystolic] = useState();
+  const [diastolic, setDiastolic] = useState();
   const [time, setTime] = useState("");
 
   const dispatch = useDispatch();
@@ -24,7 +23,7 @@ const Blood = ({ match }) => {
   const { loading, error, patient } = patientDetails;
 
   const dataList = useSelector((state) => state.dataList);
-  const { data} = dataList;
+  const { data } = dataList;
 
   const patientBloodpressureCreate = useSelector(
     (state) => state.patientBloodpressureCreate
@@ -36,7 +35,8 @@ const Blood = ({ match }) => {
 
   useEffect(() => {
     if (successPatientBloodpressure) {
-      setBlood("");
+      setSystolic("");
+      setDiastolic("");
       setTime("");
       dispatch({ type: PATIENT_CREATE_BLOODPRESSURE_RESET });
     }
@@ -46,7 +46,9 @@ const Blood = ({ match }) => {
 
   const submitHandler = (e) => {
     e.preventDefault();
-    dispatch(createPatientBloodpressure(match.params.id, { blood, time }));
+    dispatch(
+      createPatientBloodpressure(match.params.id, { systolic, diastolic, time })
+    );
   };
   return (
     <>
@@ -103,13 +105,25 @@ const Blood = ({ match }) => {
               <Form.Control
                 style={{ width: "250px" }}
                 className="mr-sm-2"
-                type="text"
-                maxLength="6"
-                pattern="^[0-9]*\d{3}[\/]?\d{2}"
-                data-mask="999/99"
-                placeholder="Entere Blood pressure measure"
-                value={blood}
-                onChange={(e) => setBlood(e.target.value)}
+                type="number"
+                maxLength="3"
+                pattern="^[0-9]*"
+                data-mask="99"
+                placeholder="Entere systolic pressure"
+                value={systolic}
+                onChange={(e) => setSystolic(e.target.value)}
+              ></Form.Control>
+
+              <Form.Control
+                style={{ width: "250px" }}
+                className="mr-sm-2"
+                type="number"
+                maxLength="2"
+                pattern="^[0-9]*"
+                data-mask="99"
+                placeholder="Entere diastolic pressure"
+                value={diastolic}
+                onChange={(e) => setDiastolic(e.target.value)}
               ></Form.Control>
 
               <Form.Control
@@ -144,7 +158,22 @@ const Blood = ({ match }) => {
                   {patient.bloodpressure.reverse().map((pressure) => (
                     <tr key={pressure._id}>
                       <td>{pressure._id}</td>
-                      <td>{pressure.blood}</td>
+                      <td>
+                        {pressure.systolic >= 120 &&
+                        pressure.systolic <= 130 &&
+                        pressure.diastolic >= 80 &&
+                        pressure.diastolic <= 85 ? (
+                          <span style={{ color: "green" }}>
+                            {pressure.systolic}/{pressure.diastolic}mmHg - the
+                            measurement is normal
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {pressure.systolic}/{pressure.diastolic}mmHg - the
+                            measurement is below normal
+                          </span>
+                        )}
+                      </td>
                       <td>{pressure.time}</td>
                     </tr>
                   ))}

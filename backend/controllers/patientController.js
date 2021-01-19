@@ -63,7 +63,6 @@ const createPatient = asyncHandler(async (req, res) => {
     nameUser: req.user.name,
     user: req.user._id,
     name: "Name and Surname",
-    age: 0,
     sex: "Sex",
     birth: "1980-01-01",
     pesel: "Pesel number",
@@ -84,7 +83,6 @@ const createPatient = asyncHandler(async (req, res) => {
 const updatePatient = asyncHandler(async (req, res) => {
   const {
     name,
-    age,
     sex,
     birth,
     phone,
@@ -100,7 +98,6 @@ const updatePatient = asyncHandler(async (req, res) => {
 
   if (patient) {
     patient.name = name;
-    patient.age = age;
     patient.sex = sex;
     patient.birth = birth;
     patient.phone = phone;
@@ -124,13 +121,14 @@ const updatePatient = asyncHandler(async (req, res) => {
 // @route POST /api/patients/:id/bloodpressure
 // @access Private Admin
 const createPatientBloodpressure = asyncHandler(async (req, res) => {
-  const { blood, time } = req.body;
+  const { systolic, diastolic, time } = req.body;
 
   const patient = await Patient.findById(req.params.id);
 
   if (patient) {
     const bloodpressure = {
-      blood,
+      systolic,
+      diastolic,
       time,
       user: req.user._id,
     };

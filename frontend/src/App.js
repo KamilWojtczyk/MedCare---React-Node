@@ -12,7 +12,6 @@ import RegisterScreen from "./screens/RegisterScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import PatientInfo from "./screens/PatientInfo";
 import PatientsScreenUser from "./screens/PatientsScreenUser";
-import HomeScreen from "./screens/HomeScreen";
 import UserListScreen from "./screens/UserListScreen";
 import UserEditScreen from "./screens/UserEditScreen";
 import PatientListScreen from "./screens/PatientListScreen";
@@ -26,13 +25,18 @@ const App = () => {
       <Header />
       <main className="py-3">
         <Container>
-          <Route path="/" component={HomeScreen} exact />
+          <Route path="/" component={LoginScreen} exact />
 
           <Route path="/about" component={About} />
           <Route path="/login" component={LoginScreen} />
           <Route path="/register" component={RegisterScreen} />
           <Route path="/profile" component={ProfileScreen} />
           <Route path="/patients" component={PatientsScreenUser} exact />
+          <Route
+            path="/patients/search/:keyword"
+            component={PatientsScreenUser}
+            exact
+          />
           <Route
             path="/admin/patientlist"
             component={PatientListScreen}

@@ -10,7 +10,6 @@ import { PATIENT_UPDATE_RESET } from "../constants/patientConstants";
 const PatientEditScreen = ({ match, history }) => {
   const patientId = match.params.id;
   const [name, setName] = useState("");
-  const [age, setAge] = useState(0);
   const [sex, setSex] = useState("");
   const [birth, setBirth] = useState("");
   const [phone, setPhone] = useState("");
@@ -42,7 +41,6 @@ const PatientEditScreen = ({ match, history }) => {
         dispatch(listPatientDetails(patientId));
       } else {
         setName(patient.name);
-        setAge(patient.age);
         setSex(patient.sex);
         setBirth(patient.birth);
         setPhone(patient.phone);
@@ -62,7 +60,6 @@ const PatientEditScreen = ({ match, history }) => {
       updatePatient({
         _id: patientId,
         name,
-        age,
         sex,
         birth,
         phone,
@@ -101,16 +98,6 @@ const PatientEditScreen = ({ match, history }) => {
                       placeholder="Enter Name"
                       value={name}
                       onChange={(e) => setName(e.target.value)}
-                    ></Form.Control>
-                  </Form.Group>
-
-                  <Form.Group controlId="age" as={Col} variant="flush">
-                    <Form.Label>Age</Form.Label>
-                    <Form.Control
-                      type="number"
-                      placeholder="Enter Age"
-                      value={age}
-                      onChange={(e) => setAge(e.target.value)}
                     ></Form.Control>
                   </Form.Group>
 

@@ -107,11 +107,6 @@ const PatientInfo = ({ match }) => {
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
-                    <Form.Label as="h5">Age</Form.Label>
-                    <Form.Control disabled value={patient.age} />
-                  </Form.Group>
-
-                  <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Sex</Form.Label>
                     <Form.Control disabled value={patient.sex} />
                   </Form.Group>

@@ -59,6 +59,15 @@ h2 {
   color: #ffd900;
 }
 
+.patient-item-Col {
+  font-size: 16px;
+  margin-bottom: 0;
+}
+
+.aside {
+  color: #000000 !important;
+}
+
 #editbutton {
   background-color: #b3b1b1bd;
 }
