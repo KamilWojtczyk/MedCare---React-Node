@@ -23,7 +23,7 @@ const Blood = ({ match }) => {
   const { loading, error, patient } = patientDetails;
 
   const dataList = useSelector((state) => state.dataList);
-  const { data } = dataList;
+  const { alldata } = dataList;
 
   const patientBloodpressureCreate = useSelector(
     (state) => state.patientBloodpressureCreate
@@ -151,7 +151,7 @@ const Blood = ({ match }) => {
                   <tr>
                     <th>ID</th>
                     <th>Measure</th>
-                    <th>Date</th>
+                    <th>{alldata}</th>
                   </tr>
                 </thead>
                 <tbody>

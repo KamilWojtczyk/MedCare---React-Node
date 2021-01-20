@@ -1,3 +1,4 @@
+var mongoose  = require('mongoose');
 var mongodb  = require('mongodb');
 var mqtt     = require('mqtt');
 var config   = require('./config');
@@ -9,8 +10,8 @@ client.on('connect', function () {
     client.subscribe(config.mqtt.namespace);
 });
 
-var mongoUri = 'mongodb://' + config.mongodb.hostname + ':' + config.mongodb.port + '/' + config.mongodb.database;
-mongodb.MongoClient.connect(mongoUri, function(error, database) {
+var mongoUri = 'mongodb+srv://padifu:Limak2107!@media.clgvz.mongodb.net/MedCare?retryWrites=true&w=majority';
+mongoose.connect(mongoUri, function(error, database) {
     if(error != null) {
         throw error;
     }
@@ -24,7 +25,7 @@ mongodb.MongoClient.connect(mongoUri, function(error, database) {
             message: JSON.parse(message),
         };
   
-        collection.insert(messageObject, function(error, result) {
+        collection.insertMany(messageObject, function(error, result) {
             if(error != null) {
                 console.log("ERROR: " + error);
             }

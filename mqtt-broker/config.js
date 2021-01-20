@@ -5,7 +5,7 @@ config.debug = process.env.DEBUG || false;
 config.mqtt  = {};
 config.mqtt.namespace = process.env.MQTT_NAMESPACE || '#';
 config.mqtt.hostname  = process.env.MQTT_HOSTNAME  || 'localhost';
-config.mqtt.port      = process.env.MQTT_PORT      || 1883;
+config.mqtt.port      = process.env.MQTT_PORT      || 9988;
 config.mqtt.user      = process.env.MQTT_USER      || 'mqtt';
 config.mqtt.password  = process.env.MQTT_PASSWORD  || '123456';
 

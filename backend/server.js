@@ -27,7 +27,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/patients", patientRoutes);
 app.use("/api/users", userRoutes);
-app.use("/data", dataRoutes);
+app.use("/api/data", dataRoutes);
 
 app.use(notFound);
 

@@ -1,24 +1,10 @@
 import mongoose from "mongoose";
 
-const dataSchema = mongoose.Schema(
+const alldataSchema = mongoose.Schema(
   {
-    name: {
+    topic: {
       type: String,
       required: true,
-    },
-    email: {
-      type: String,
-      required: true,
-      unique: true,
-    },
-    password: {
-      type: String,
-      required: true,
-    },
-    isAdmin: {
-      type: Boolean,
-      required: true,
-      default: false,
     },
   },
   {
@@ -26,7 +12,7 @@ const dataSchema = mongoose.Schema(
   }
 );
   
-const AnyData = mongoose.model("data", dataSchema);
+const AllData = mongoose.model("AllData", alldataSchema);
   
-export default AnyData;
+export default AllData;
   
