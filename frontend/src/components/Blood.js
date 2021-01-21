@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
@@ -12,6 +13,8 @@ import { PATIENT_CREATE_BLOODPRESSURE_RESET } from "../constants/patientConstant
 import { LinkContainer } from "react-router-bootstrap";
 
 const Blood = ({ match }) => {
+  const [chartData, setChartData] = useState({});
+
   const [systolic, setSystolic] = useState();
   const [diastolic, setDiastolic] = useState();
   const [time, setTime] = useState("");
@@ -20,6 +23,27 @@ const Blood = ({ match }) => {
 
   const patient = useSelector((state) => state.patientDetailsWithData);
   const { loading, error, patientwithdata } = patient;
+
+  let sys = [];
+  let dias = [];
+  for (const dataObj of patientwithdata.patient.bloodpressure) {
+    sys.push(parseInt(dataObj.systolic));
+    dias.push(parseInt(dataObj.diastolic));
+  }
+  const chart = () => {
+    setChartData({
+      labels: dias,
+      datasets: [
+        {
+          label: "Bloodpressure",
+          data: sys,
+          backgroundColor: ["#F0F8FF"],
+          borderWidth: 4,
+        },
+      ],
+    });
+  };
+  useEffect(chart, []);
 
   const patientBloodpressureCreate = useSelector(
     (state) => state.patientBloodpressureCreate
@@ -65,7 +89,9 @@ const Blood = ({ match }) => {
         <Card className="mb-3 border-dark">
           <Card.Header>
             <Nav variant="pills">
-              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}`}>
+              <LinkContainer
+                to={`/admin/patientlist/${patientwithdata.patient._id}`}
+              >
                 <Nav.Link eventKey="personal informations">
                   Personal Informations
                 </Nav.Link>
@@ -75,7 +101,9 @@ const Blood = ({ match }) => {
               >
                 <Nav.Link>Blood Pressure</Nav.Link>
               </LinkContainer>
-              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}>
+              <LinkContainer
+                to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}
+              >
                 <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
@@ -150,58 +178,90 @@ const Blood = ({ match }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {patientwithdata.patient.bloodpressure.reverse().map((pressure) => (
-                    <tr key={pressure._id}>
-                      <td>{pressure._id}</td>
-                      <td>
-                        {pressure.systolic >= 120 &&
-                        pressure.systolic <= 130 &&
-                        pressure.diastolic >= 80 &&
-                        pressure.diastolic <= 85 ? (
-                          <span style={{ color: "green" }}>
-                            {pressure.systolic}/{pressure.diastolic}mmHg - the
-                            measurement is normal
-                          </span>
-                        ) : (
-                          <span style={{ color: "red" }}>
-                            {pressure.systolic}/{pressure.diastolic}mmHg - the
-                            measurement is below normal
-                          </span>
-                        )}
-                      </td>
-                      <td>{pressure.time}</td>
-                    </tr>
-                  ))}
+                  {patientwithdata.patient.bloodpressure
+                    .reverse()
+                    .map((pressure) => (
+                      <tr key={pressure._id}>
+                        <td>{pressure._id}</td>
+                        <td>
+                          {pressure.systolic >= 120 &&
+                          pressure.systolic <= 130 &&
+                          pressure.diastolic >= 80 &&
+                          pressure.diastolic <= 85 ? (
+                            <span style={{ color: "green" }}>
+                              {pressure.systolic}/{pressure.diastolic}mmHg - the
+                              measurement is normal
+                            </span>
+                          ) : (
+                            <span style={{ color: "red" }}>
+                              {pressure.systolic}/{pressure.diastolic}mmHg - the
+                              measurement is below normal
+                            </span>
+                          )}
+                        </td>
+                        <td>{pressure.time}</td>
+                      </tr>
+                    ))}
                   {patientwithdata.data.map((datas) =>
-                          datas.message.bloodpressure.map((pressure) => (
-                            <tr key={pressure._id}>
-                              <td>{datas.message.id}</td>
-                              <td>
-                        {pressure.diastolic >= 120 &&
-                        pressure.diastolic <= 130 &&
-                        pressure.systolic >= 80 &&
-                        pressure.systolic <= 85 ? (
-                          <span style={{ color: "green" }}>
-                            {pressure.diastolic}/{pressure.systolic}mmHg - the
-                            measurement is normal
-                          </span>
-                        ) : (
-                          <span style={{ color: "red" }}>
-                            {pressure.diastolic}/{pressure.systolic}mmHg - the
-                            measurement is below normal
-                          </span>
-                        )}
-                      </td>
-                              <td>{pressure.time}</td>
-                            </tr>
-                          ))
-                        )}
+                    datas.message.bloodpressure.map((pressure) => (
+                      <tr key={pressure._id}>
+                        <td>{datas.message.id}</td>
+                        <td>
+                          {pressure.diastolic >= 120 &&
+                          pressure.diastolic <= 130 &&
+                          pressure.systolic >= 80 &&
+                          pressure.systolic <= 85 ? (
+                            <span style={{ color: "green" }}>
+                              {pressure.diastolic}/{pressure.systolic}mmHg - the
+                              measurement is normal
+                            </span>
+                          ) : (
+                            <span style={{ color: "red" }}>
+                              {pressure.diastolic}/{pressure.systolic}mmHg - the
+                              measurement is below normal
+                            </span>
+                          )}
+                        </td>
+                        <td>{pressure.time}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
             )}
           </Card.Body>
         </Card>
       )}
+      <div>
+        <Line
+          data={chartData}
+          options={{
+            responsive: true,
+            title: { text: "Bloodpressure measurement", display: true },
+            scales: {
+              yAxes: [
+                {
+                  tricks: {
+                    autoSkip: true,
+                    maxTicksLimit: 10,
+                    beginAtZero: true,
+                  },
+                  gridLines: {
+                    display: false,
+                  },
+                },
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    display: false,
+                  },
+                },
+              ],
+            },
+          }}
+        />
+      </div>
     </>
   );
 };

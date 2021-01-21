@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
@@ -12,6 +13,8 @@ import { PATIENT_CREATE_SATURATION_RESET } from "../constants/patientConstants";
 import { LinkContainer } from "react-router-bootstrap";
 
 const Saturation = ({ match }) => {
+  const [chartData, setChartData] = useState({});
+
   const [sat, setSat] = useState();
   const [time, setTime] = useState("");
 
@@ -19,6 +22,27 @@ const Saturation = ({ match }) => {
 
   const patient = useSelector((state) => state.patientDetailsWithData);
   const { loading, error, patientwithdata } = patient;
+
+  let sats = [];
+  let times = [];
+  for (const dataObj of patientwithdata.patient.saturation) {
+    sats.push(parseInt(dataObj.sat));
+    times.push(dataObj.time);
+  }
+  const chart = () => {
+    setChartData({
+      labels: times,
+      datasets: [
+        {
+          label: "Saturation",
+          data: sats,
+          backgroundColor: ["#F0F8FF"],
+          borderWidth: 4,
+        },
+      ],
+    });
+  };
+  useEffect(chart, []);
 
   const patientSaturationCreate = useSelector(
     (state) => state.patientSaturationCreate
@@ -62,7 +86,9 @@ const Saturation = ({ match }) => {
         <Card className="mb-3 border-dark">
           <Card.Header>
             <Nav variant="pills">
-              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}`}>
+              <LinkContainer
+                to={`/admin/patientlist/${patientwithdata.patient._id}`}
+              >
                 <Nav.Link eventKey="personal informations">
                   Personal Informations
                 </Nav.Link>
@@ -72,7 +98,9 @@ const Saturation = ({ match }) => {
               >
                 <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
               </LinkContainer>
-              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}>
+              <LinkContainer
+                to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}
+              >
                 <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
@@ -152,31 +180,61 @@ const Saturation = ({ match }) => {
                       <td>{sat.time}</td>
                     </tr>
                   ))}
-                   {patientwithdata.data.map((datas) =>
-                          datas.message.saturation.map((sat) => (
-                            <tr key={sat._id}>
-                              <td>{datas.message.id}</td>
-                              <td>
-                        {sat.sat >= 95 ? (
-                          <span style={{ color: "green" }}>
-                            {sat.sat}% - the measurement is normal{" "}
-                          </span>
-                        ) : (
-                          <span style={{ color: "red" }}>
-                            {sat.sat}% - the measurement is below normal
-                          </span>
-                        )}
-                      </td>
-                      <td>{sat.time}</td>
-                            </tr>
-                          ))
-                        )}
+                  {patientwithdata.data.map((datas) =>
+                    datas.message.saturation.map((sat) => (
+                      <tr key={sat._id}>
+                        <td>{datas.message.id}</td>
+                        <td>
+                          {sat.sat >= 95 ? (
+                            <span style={{ color: "green" }}>
+                              {sat.sat}% - the measurement is normal{" "}
+                            </span>
+                          ) : (
+                            <span style={{ color: "red" }}>
+                              {sat.sat}% - the measurement is below normal
+                            </span>
+                          )}
+                        </td>
+                        <td>{sat.time}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
             )}
           </Card.Body>
         </Card>
       )}
+      <div>
+        <Line
+          data={chartData}
+          options={{
+            responsive: true,
+            title: { text: "Saturation measurement", display: true },
+            scales: {
+              yAxes: [
+                {
+                  tricks: {
+                    autoSkip: true,
+                    maxTicksLimit: 10,
+                    beginAtZero: true,
+                  },
+                  gridLines: {
+                    display: false,
+                  },
+                },
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    display: false,
+                  },
+                },
+              ],
+            },
+          }}
+        />
+      </div>
     </>
   );
 };

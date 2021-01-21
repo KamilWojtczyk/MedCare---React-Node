@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { Line } from "react-chartjs-2";
 import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
@@ -12,6 +13,8 @@ import { PATIENT_CREATE_BLOODSUGAR_RESET } from "../constants/patientConstants";
 import { LinkContainer } from "react-router-bootstrap";
 
 const BloodSugar = ({ match }) => {
+  const [chartData, setChartData] = useState({});
+
   const [sugar, setSugar] = useState();
   const [time, setTime] = useState("");
 
@@ -19,6 +22,27 @@ const BloodSugar = ({ match }) => {
 
   const patient = useSelector((state) => state.patientDetailsWithData);
   const { loading, error, patientwithdata } = patient;
+
+  let bloods = [];
+  let times = [];
+  for (const dataObj of patientwithdata.patient.bloodsugar) {
+    bloods.push(parseInt(dataObj.sugar));
+    times.push(dataObj.time);
+  }
+  const chart = () => {
+    setChartData({
+      labels: times,
+      datasets: [
+        {
+          label: "Bloodsugar",
+          data: bloods,
+          backgroundColor: ["#F0F8FF"],
+          borderWidth: 4,
+        },
+      ],
+    });
+  };
+  useEffect(chart, []);
 
   const patientBloodsugarCreate = useSelector(
     (state) => state.patientBloodsugarCreate
@@ -62,7 +86,9 @@ const BloodSugar = ({ match }) => {
         <Card className="mb-3 border-dark">
           <Card.Header>
             <Nav variant="pills">
-              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}`}>
+              <LinkContainer
+                to={`/admin/patientlist/${patientwithdata.patient._id}`}
+              >
                 <Nav.Link eventKey="personal informations">
                   Personal Informations
                 </Nav.Link>
@@ -72,7 +98,9 @@ const BloodSugar = ({ match }) => {
               >
                 <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
               </LinkContainer>
-              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}>
+              <LinkContainer
+                to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}
+              >
                 <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
@@ -152,31 +180,62 @@ const BloodSugar = ({ match }) => {
                       <td>{sugar.time}</td>
                     </tr>
                   ))}
-                   {patientwithdata.data.map((datas) =>
-                          datas.message.bloodsugar.map((sugar) => (
-                            <tr key={sugar._id}>
-                              <td>{datas.message.id}</td>
-                              <td>
-                        {sugar.sugar >= 70 && sugar.sugar <= 125 ? (
-                          <span style={{ color: "green" }}>
-                            {sugar.sugar}mg/dL - the measurement is normal
-                          </span>
-                        ) : (
-                          <span style={{ color: "red" }}>
-                            {sugar.sugar}mg/dL - the measurement is below normal
-                          </span>
-                        )}
-                      </td>
-                      <td>{sugar.time}</td>
-                            </tr>
-                          ))
-                        )}
+                  {patientwithdata.data.map((datas) =>
+                    datas.message.bloodsugar.map((sugar) => (
+                      <tr key={sugar._id}>
+                        <td>{datas.message.id}</td>
+                        <td>
+                          {sugar.sugar >= 70 && sugar.sugar <= 125 ? (
+                            <span style={{ color: "green" }}>
+                              {sugar.sugar}mg/dL - the measurement is normal
+                            </span>
+                          ) : (
+                            <span style={{ color: "red" }}>
+                              {sugar.sugar}mg/dL - the measurement is below
+                              normal
+                            </span>
+                          )}
+                        </td>
+                        <td>{sugar.time}</td>
+                      </tr>
+                    ))
+                  )}
                 </tbody>
               </Table>
             )}
           </Card.Body>
         </Card>
       )}
+      <div>
+        <Line
+          data={chartData}
+          options={{
+            responsive: true,
+            title: { text: "Bloodsugar measurement", display: true },
+            scales: {
+              yAxes: [
+                {
+                  tricks: {
+                    autoSkip: true,
+                    maxTicksLimit: 10,
+                    beginAtZero: true,
+                  },
+                  gridLines: {
+                    display: false,
+                  },
+                },
+              ],
+              xAxes: [
+                {
+                  gridLines: {
+                    display: false,
+                  },
+                },
+              ],
+            },
+          }}
+        />
+      </div>
     </>
   );
 };
