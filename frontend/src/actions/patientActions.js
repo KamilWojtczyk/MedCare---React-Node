@@ -30,6 +30,9 @@ import {
   PATIENT_CREATE_COMMENT_REQUEST,
   PATIENT_CREATE_COMMENT_SUCCESS,
   PATIENT_CREATE_COMMENT_FAIL,
+  PATIENT_DETAILS_WITH_DATA_REQUEST,
+  PATIENT_DETAILS_WITH_DATA_SUCCESS,
+  PATIENT_DETAILS_WITH_DATA_FAIL,
 } from "../constants/patientConstants";
 
 export const listPatients = (keyword = "", pageNumber = "") => async (
@@ -92,6 +95,37 @@ export const listPatientDetails = (id) => async (dispatch, getState) => {
   } catch (error) {
     dispatch({
       type: PATIENT_DETAILS_FAIL,
+      payload:
+        error.response && error.response.data.message
+          ? error.response.data.message
+          : error.message,
+    });
+  }
+};
+
+export const listPatientWithDataDetails = (id) => async (dispatch, getState) => {
+  try {
+    dispatch({ type: PATIENT_DETAILS_WITH_DATA_REQUEST });
+
+    const {
+      userLogin: { userInfo },
+    } = getState();
+
+    const config = {
+      headers: {
+        Authorization: `Bearer ${userInfo.token}`,
+      },
+    };
+
+    const { data } = await axios.get(`/api/patients/patientWithData/${id}`, config);
+
+    dispatch({
+      type: PATIENT_DETAILS_WITH_DATA_SUCCESS,
+      payload: data,
+    });
+  } catch (error) {
+    dispatch({
+      type: PATIENT_DETAILS_WITH_DATA_FAIL,
       payload:
         error.response && error.response.data.message
           ? error.response.data.message

@@ -22,10 +22,10 @@ mongoose.connect(mongoUri, function(error, database) {
     client.on('message', function (topic, message) {
         var messageObject = {
             topic: topic,
-            message: JSON.parse(message),
+            message: JSON.parse(message)
         };
   
-        collection.insertMany(messageObject, function(error, result) {
+        collection.insertMany([messageObject], function(error, result) {
             if(error != null) {
                 console.log("ERROR: " + error);
             }

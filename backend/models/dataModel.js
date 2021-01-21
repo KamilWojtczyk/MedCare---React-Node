@@ -7,27 +7,27 @@ const bloodpressureSchema = mongoose.Schema({
 });
 
 const bloodsugarSchema = mongoose.Schema({
-  sugar: { type: Number, required: true },
-  time: { type: String, required: true },
+  sugar: { type: Number, required: false },
+  time: { type: String, required: false },
 });
 
 const heartrateSchema = mongoose.Schema({
-  heart: { type: Number, required: true },
-  time: { type: String, required: true },
+  heart: { type: Number, required: false },
+  time: { type: String, required: false },
 });
 
 const saturationSchema = mongoose.Schema({
-  sat: { type: Number, required: true },
-  time: { type: String, required: true },
+  sat: { type: Number, required: false },
+  time: { type: String, required: false },
 });
 
 const dataSchema = mongoose.Schema({
   topic: {
     type: String,
-    required: true,
+    required: false,
   },
   message: {
-    id: { type: String, required: true },
+    id: { type: String, required: false },
     bloodpressure: [bloodpressureSchema],
     heartrate: [heartrateSchema],
     bloodsugar: [bloodsugarSchema],

@@ -2,6 +2,7 @@ import express from "express";
 import {
   getPatients,
   getPatientById,
+  getPatientWithDataById,
   deletePatient,
   updatePatient,
   createPatient,
@@ -28,5 +29,9 @@ router
   .get(protect, getPatientById)
   .delete(protect, admin, deletePatient)
   .put(protect, admin, updatePatient);
+
+router
+  .route("/patientWithData/:id")
+  .get(protect, getPatientWithDataById)
 
 export default router;

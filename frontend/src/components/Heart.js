@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
 import {
-  listPatientDetails,
+  listPatientWithDataDetails,
   createPatientHeartrate,
 } from "../actions/patientActions";
 import Message from "../components/Message";
@@ -17,8 +17,8 @@ const Heart = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  const patientDetails = useSelector((state) => state.patientDetails);
-  const { loading, error, patient } = patientDetails;
+  const patient = useSelector((state) => state.patientDetailsWithData);
+  const { loading, error, patientwithdata } = patient;
 
   const patientHeartrateCreate = useSelector(
     (state) => state.patientHeartrateCreate
@@ -34,7 +34,7 @@ const Heart = ({ match }) => {
       setTime("");
       dispatch({ type: PATIENT_CREATE_HEARTRATE_RESET });
     }
-    dispatch(listPatientDetails(match.params.id));
+    dispatch(listPatientWithDataDetails(match.params.id));
   }, [dispatch, match, successPatientHeartrate]);
 
   const submitHandler = (e) => {
@@ -51,7 +51,7 @@ const Heart = ({ match }) => {
           </Link>
         </Col>
         <Col className="text-right">
-          <h5>Patient created by: {patient.nameUser}</h5>
+          <h5>Patient created by: {patientwithdata.patient.nameUser}</h5>
         </Col>
       </Row>
       {loading ? (
@@ -62,26 +62,26 @@ const Heart = ({ match }) => {
         <Card className="mb-3 border-dark">
           <Card.Header>
             <Nav variant="pills">
-              <LinkContainer to={`/admin/patientlist/${patient._id}`}>
+              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}`}>
                 <Nav.Link eventKey="personal informations">
                   Personal Informations
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/bloodpressure`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/bloodpressure`}
               >
                 <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
               </LinkContainer>
-              <LinkContainer to={`/admin/patientlist/${patient._id}/heartrate`}>
+              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}>
                 <Nav.Link>Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/bloodsugar`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/bloodsugar`}
               >
                 <Nav.Link eventKey="bloodsugar">Blood Sugar</Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/saturation`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/saturation`}
               >
                 <Nav.Link eventKey="saturation">Saturation</Nav.Link>
               </LinkContainer>
@@ -123,7 +123,7 @@ const Heart = ({ match }) => {
                 Submit
               </Button>
             </Form>
-            {patient.heartrate.length === 0 ? (
+            {patientwithdata.patient.heartrate.length === 0 ? (
               <Message>No measurement</Message>
             ) : (
               <Table striped bordered hover responsive className="table-sm">
@@ -135,7 +135,7 @@ const Heart = ({ match }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {patient.heartrate.reverse().map((heartrate) => (
+                  {patientwithdata.patient.heartrate.reverse().map((heartrate) => (
                     <tr key={heartrate._id}>
                       <td>{heartrate._id}</td>
                       <td>
@@ -153,6 +153,26 @@ const Heart = ({ match }) => {
                       <td>{heartrate.time}</td>
                     </tr>
                   ))}
+                  {patientwithdata.data.map((datas) =>
+                          datas.message.heartrate.map((heartrate) => (
+                            <tr key={heartrate._id}>
+                              <td>{datas.message.id}</td>
+                              <td>
+                        {heartrate.heart >= 70 && heartrate.heart <= 100 ? (
+                          <span style={{ color: "green" }}>
+                            {heartrate.heart}bpm - the measurement is normal
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {heartrate.heart}bpm- the measurement is below
+                            normal
+                          </span>
+                        )}
+                      </td>
+                              <td>{heartrate.time}</td>
+                            </tr>
+                          ))
+                        )}
                 </tbody>
               </Table>
             )}

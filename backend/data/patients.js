@@ -12,19 +12,23 @@ const patients = [
     stepcount: "5467",
     bloodpressure: [
       {
-        blood: "130/85",
-        time: "2020-11-14T11:37",
+        systolic: 130,
+        diastolic: 85,
+        time: "2020-11-14T11:37"
       },
       {
-        blood: "120/80",
+        systolic: 120,
+        diastolic: 85,
         time: "2020-11-15T11:37",
       },
       {
-        blood: "137/83",
+        systolic: 137,
+        diastolic: 85,
         time: "2020-11-16T11:37",
       },
       {
-        blood: "140/80",
+        systolic: 140,
+        diastolic: 85,
         time: "2020-11-17T11:37",
       },
     ],
@@ -96,19 +100,23 @@ const patients = [
     stepcount: "2000",
     bloodpressure: [
       {
-        blood: "130/85",
-        time: "2020-11-14T11:37",
+        systolic: 130,
+        diastolic: 85,
+        time: "2020-11-14T11:37"
       },
       {
-        blood: "120/80",
+        systolic: 120,
+        diastolic: 85,
         time: "2020-11-15T11:37",
       },
       {
-        blood: "137/83",
+        systolic: 137,
+        diastolic: 85,
         time: "2020-11-16T11:37",
       },
       {
-        blood: "140/80",
+        systolic: 140,
+        diastolic: 85,
         time: "2020-11-17T11:37",
       },
     ],
@@ -180,19 +188,23 @@ const patients = [
     stepcount: "3333",
     bloodpressure: [
       {
-        blood: "130/85",
-        time: "2020-11-14T11:37",
+        systolic: 130,
+        diastolic: 85,
+        time: "2020-11-14T11:37"
       },
       {
-        blood: "120/80",
+        systolic: 120,
+        diastolic: 85,
         time: "2020-11-15T11:37",
       },
       {
-        blood: "137/83",
+        systolic: 137,
+        diastolic: 85,
         time: "2020-11-16T11:37",
       },
       {
-        blood: "140/80",
+        systolic: 140,
+        diastolic: 85,
         time: "2020-11-17T11:37",
       },
     ],

@@ -1,5 +1,6 @@
 import asyncHandler from "express-async-handler";
 import Patient from "../models/patientModel.js";
+import Data from "../models/dataModel.js";
 
 // @desc Get all patients
 // @route Get /api/patients
@@ -34,6 +35,21 @@ const getPatientById = asyncHandler(async (req, res) => {
 
   if (patient) {
     res.json(patient);
+  } else {
+    res.status(404);
+    throw new Error("Patient not found");
+  }
+});
+
+// @desc Fetch single patients
+// @route Get /api/patientWithData/:id
+// @access Private
+const getPatientWithDataById = asyncHandler(async (req, res) => {
+  const patient = await Patient.findById(req.params.id);
+  const data = await Data.find({"message.id": req.params.id})
+
+  if (patient) {
+    res.json({patient, data});
   } else {
     res.status(404);
     throw new Error("Patient not found");
@@ -237,6 +253,7 @@ const createPatientComment = asyncHandler(async (req, res) => {
 export {
   getPatients,
   getPatientById,
+  getPatientWithDataById,
   deletePatient,
   createPatient,
   updatePatient,

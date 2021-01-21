@@ -12,7 +12,7 @@ import {
   Button,
 } from "react-bootstrap";
 import {
-  listPatientDetails,
+  listPatientWithDataDetails,
   createPatientComment,
 } from "../actions/patientActions";
 import Message from "../components/Message";
@@ -26,8 +26,8 @@ const PatientInfo = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  const patientDetails = useSelector((state) => state.patientDetails);
-  const { loading, error, patient } = patientDetails;
+  const patient = useSelector((state) => state.patientDetailsWithData);
+  const { loading, error, patientwithdata } = patient;
 
   const patientCommentCreate = useSelector(
     (state) => state.patientCommentCreate
@@ -43,8 +43,9 @@ const PatientInfo = ({ match }) => {
       setText("");
       dispatch({ type: PATIENT_CREATE_COMMENT_RESET });
     }
-    dispatch(listPatientDetails(match.params.id));
+    dispatch(listPatientWithDataDetails(match.params.id));
   }, [dispatch, match, successPatientComment]);
+
 
   const submitHandler = (e) => {
     e.preventDefault();
@@ -60,7 +61,7 @@ const PatientInfo = ({ match }) => {
           </Link>
         </Col>
         <Col className="text-right">
-          <h5>Patient created by: {patient.nameUser}</h5>
+          {/* <h5>Patient created by: {patient.nameUser}</h5> */}
         </Col>
       </Row>
 
@@ -73,26 +74,26 @@ const PatientInfo = ({ match }) => {
           <Card className="mb-3 border-dark">
             <Card.Header>
               <Nav variant="pills">
-                <LinkContainer to={`/admin/patientlist/${patient._id}`}>
+                <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}`}>
                   <Nav.Link>Personal Informations</Nav.Link>
                 </LinkContainer>
                 <LinkContainer
-                  to={`/admin/patientlist/${patient._id}/bloodpressure`}
+                  to={`/admin/patientlist/${patientwithdata.patient._id}/bloodpressure`}
                 >
                   <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
                 </LinkContainer>
                 <LinkContainer
-                  to={`/admin/patientlist/${patient._id}/heartrate`}
+                  to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}
                 >
                   <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
                 </LinkContainer>
                 <LinkContainer
-                  to={`/admin/patientlist/${patient._id}/bloodsugar`}
+                  to={`/admin/patientlist/${patientwithdata.patient._id}/bloodsugar`}
                 >
                   <Nav.Link eventKey="bloodsugar">Blood Sugar</Nav.Link>
                 </LinkContainer>
                 <LinkContainer
-                  to={`/admin/patientlist/${patient._id}/saturation`}
+                  to={`/admin/patientlist/${patientwithdata.patient._id}/saturation`}
                 >
                   <Nav.Link eventKey="saturation">Saturation</Nav.Link>
                 </LinkContainer>
@@ -103,34 +104,34 @@ const PatientInfo = ({ match }) => {
                 <Form.Row>
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Name</Form.Label>
-                    <Form.Control disabled value={patient.name} />
+                    <Form.Control disabled value={patientwithdata.patient.name} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Sex</Form.Label>
-                    <Form.Control disabled value={patient.sex} />
+                    <Form.Control disabled value={patientwithdata.patient.sex} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Pesel Number</Form.Label>
-                    <Form.Control disabled value={patient.pesel} />
+                    <Form.Control disabled value={patientwithdata.patient.pesel} />
                   </Form.Group>
                 </Form.Row>
 
                 <Form.Row>
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Birth</Form.Label>
-                    <Form.Control disabled value={patient.birth} />
+                    <Form.Control disabled value={patientwithdata.patient.birth} />
                   </Form.Group>
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Phone Number</Form.Label>
-                    <Form.Control disabled value={patient.phone} />
+                    <Form.Control disabled value={patientwithdata.patient.phone} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Email Address</Form.Label>
-                    <a href={`mailto:${patient.email}`}>
-                      <Form.Control disabled value={patient.email} />
+                    <a href={`mailto:${patientwithdata.patient.email}`}>
+                      <Form.Control disabled value={patientwithdata.patient.email} />
                     </a>
                   </Form.Group>
                 </Form.Row>
@@ -138,17 +139,17 @@ const PatientInfo = ({ match }) => {
                 <Form.Row>
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Weight</Form.Label>
-                    <Form.Control disabled value={`${patient.weight} kg`} />
+                    <Form.Control disabled value={`${patientwithdata.patient.weight} kg`} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Height</Form.Label>
-                    <Form.Control disabled value={`${patient.height} cm`} />
+                    <Form.Control disabled value={`${patientwithdata.patient.height} cm`} />
                   </Form.Group>
 
                   <Form.Group as={Col} variant="flush">
                     <Form.Label as="h5">Step Count</Form.Label>
-                    <Form.Control disabled value={patient.stepcount} />
+                    <Form.Control disabled value={patientwithdata.patient.stepcount} />
                   </Form.Group>
                 </Form.Row>
               </Form>
@@ -189,11 +190,11 @@ const PatientInfo = ({ match }) => {
                   </Form>
                 </ListGroupItem>
               </ListGroup>
-              {patient.comment.length === 0 ? (
+              {patientwithdata.patient.comment.length === 0 ? (
                 <Message>No Notes</Message>
               ) : (
                 <ListGroup variant="flush">
-                  {patient.comment.reverse().map((comment) => (
+                  {patientwithdata.patient.comment.reverse().map((comment) => (
                     <ListGroupItem key={comment._id}>
                       <h5>Added by: {comment.name}</h5>
                       <h5>{comment.createdAt.substring(0, 10)}</h5>

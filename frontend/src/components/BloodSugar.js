@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
 import {
-  listPatientDetails,
+  listPatientWithDataDetails,
   createPatientBloodsugar,
 } from "../actions/patientActions";
 import Message from "../components/Message";
@@ -17,8 +17,8 @@ const BloodSugar = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  const patientDetails = useSelector((state) => state.patientDetails);
-  const { loading, error, patient } = patientDetails;
+  const patient = useSelector((state) => state.patientDetailsWithData);
+  const { loading, error, patientwithdata } = patient;
 
   const patientBloodsugarCreate = useSelector(
     (state) => state.patientBloodsugarCreate
@@ -34,7 +34,7 @@ const BloodSugar = ({ match }) => {
       setTime("");
       dispatch({ type: PATIENT_CREATE_BLOODSUGAR_RESET });
     }
-    dispatch(listPatientDetails(match.params.id));
+    dispatch(listPatientWithDataDetails(match.params.id));
   }, [dispatch, match, successPatientBloodsugar]);
 
   const submitHandler = (e) => {
@@ -51,7 +51,7 @@ const BloodSugar = ({ match }) => {
           </Link>
         </Col>
         <Col className="text-right">
-          <h5>Patient created by: {patient.nameUser}</h5>
+          <h5>Patient created by: {patientwithdata.patient.nameUser}</h5>
         </Col>
       </Row>
       {loading ? (
@@ -62,26 +62,26 @@ const BloodSugar = ({ match }) => {
         <Card className="mb-3 border-dark">
           <Card.Header>
             <Nav variant="pills">
-              <LinkContainer to={`/admin/patientlist/${patient._id}`}>
+              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}`}>
                 <Nav.Link eventKey="personal informations">
                   Personal Informations
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/bloodpressure`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/bloodpressure`}
               >
                 <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
               </LinkContainer>
-              <LinkContainer to={`/admin/patientlist/${patient._id}/heartrate`}>
+              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}>
                 <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/bloodsugar`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/bloodsugar`}
               >
                 <Nav.Link>Blood Sugar</Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/saturation`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/saturation`}
               >
                 <Nav.Link eventKey="saturation">Saturation</Nav.Link>
               </LinkContainer>
@@ -123,7 +123,7 @@ const BloodSugar = ({ match }) => {
                 Submit
               </Button>
             </Form>
-            {patient.bloodsugar.length === 0 ? (
+            {patientwithdata.patient.bloodsugar.length === 0 ? (
               <Message>No measurement</Message>
             ) : (
               <Table striped bordered hover responsive className="table-sm">
@@ -135,7 +135,7 @@ const BloodSugar = ({ match }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {patient.bloodsugar.reverse().map((sugar) => (
+                  {patientwithdata.patient.bloodsugar.reverse().map((sugar) => (
                     <tr key={sugar._id}>
                       <td>{sugar._id}</td>
                       <td>
@@ -152,6 +152,25 @@ const BloodSugar = ({ match }) => {
                       <td>{sugar.time}</td>
                     </tr>
                   ))}
+                   {patientwithdata.data.map((datas) =>
+                          datas.message.bloodsugar.map((sugar) => (
+                            <tr key={sugar._id}>
+                              <td>{datas.message.id}</td>
+                              <td>
+                        {sugar.sugar >= 70 && sugar.sugar <= 125 ? (
+                          <span style={{ color: "green" }}>
+                            {sugar.sugar}mg/dL - the measurement is normal
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {sugar.sugar}mg/dL - the measurement is below normal
+                          </span>
+                        )}
+                      </td>
+                      <td>{sugar.time}</td>
+                            </tr>
+                          ))
+                        )}
                 </tbody>
               </Table>
             )}

@@ -37,6 +37,9 @@ import {
   PATIENT_CREATE_COMMENT_REQUEST,
   PATIENT_CREATE_COMMENT_FAIL,
   PATIENT_CREATE_COMMENT_RESET,
+  PATIENT_DETAILS_WITH_DATA_REQUEST,
+  PATIENT_DETAILS_WITH_DATA_SUCCESS,
+  PATIENT_DETAILS_WITH_DATA_FAIL,
 } from "../constants/patientConstants";
 
 export const patientlistReducer = (state = { patients: [] }, action) => {
@@ -61,6 +64,7 @@ export const patientlistReducer = (state = { patients: [] }, action) => {
 
 export const patientDetailsReducer = (
   state = {
+    loading: true,
     patient: {
       bloodpressure: [],
       bloodsugar: [],
@@ -77,6 +81,38 @@ export const patientDetailsReducer = (
     case PATIENT_DETAILS_SUCCESS:
       return { loading: false, patient: action.payload };
     case PATIENT_DETAILS_FAIL:
+      return { loading: false, error: action.payload };
+    default:
+      return state;
+  }
+};
+
+export const patientDetailsWithDataReducer = (
+  state = {
+    patientwithdata: {
+      patient: {
+        bloodpressure: [],
+        bloodsugar: [],
+        heartrate: [],
+        saturation: [],
+        comment: [],
+      },
+      data: {
+        bloodpressure: [],
+        bloodsugar: [],
+        heartrate: [],
+        saturation: [],
+      }
+    },
+  },
+  action
+) => {
+  switch (action.type) {
+    case PATIENT_DETAILS_WITH_DATA_REQUEST:
+      return { loading: true, ...state };
+    case PATIENT_DETAILS_WITH_DATA_SUCCESS:
+      return { loading: false, patientwithdata: action.payload };
+    case PATIENT_DETAILS_WITH_DATA_FAIL:
       return { loading: false, error: action.payload };
     default:
       return state;

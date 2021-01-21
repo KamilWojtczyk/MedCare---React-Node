@@ -1,7 +1,7 @@
 import axios from "axios";
 import { DATA_LIST_FAIL, DATA_LIST_REQUEST, DATA_LIST_SUCCES } from "../constants/dataConstants";
 
-export const listData = () => async (dispatch, getState) => {
+export const listData = (id) => async (dispatch, getState) => {
   try {
     dispatch({
       type: DATA_LIST_REQUEST,
@@ -17,7 +17,8 @@ export const listData = () => async (dispatch, getState) => {
       },
     };
 
-    const { data } = await axios.get(`/api/data`, config);
+    const { data } = await axios.get(`/api/patients/${id}`, config);
+    console.log(data)
 
     dispatch({
       type: DATA_LIST_SUCCES,

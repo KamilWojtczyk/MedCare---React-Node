@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
 import {
-  listPatientDetails,
+  listPatientWithDataDetails,
   createPatientSaturation,
 } from "../actions/patientActions";
 import Message from "../components/Message";
@@ -17,8 +17,8 @@ const Saturation = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  const patientDetails = useSelector((state) => state.patientDetails);
-  const { loading, error, patient } = patientDetails;
+  const patient = useSelector((state) => state.patientDetailsWithData);
+  const { loading, error, patientwithdata } = patient;
 
   const patientSaturationCreate = useSelector(
     (state) => state.patientSaturationCreate
@@ -34,7 +34,7 @@ const Saturation = ({ match }) => {
       setTime("");
       dispatch({ type: PATIENT_CREATE_SATURATION_RESET });
     }
-    dispatch(listPatientDetails(match.params.id));
+    dispatch(listPatientWithDataDetails(match.params.id));
   }, [dispatch, match, successPatientSaturation]);
 
   const submitHandler = (e) => {
@@ -51,7 +51,7 @@ const Saturation = ({ match }) => {
           </Link>
         </Col>
         <Col className="text-right">
-          <h5>Patient created by: {patient.nameUser}</h5>
+          <h5>Patient created by: {patientwithdata.patient.nameUser}</h5>
         </Col>
       </Row>
       {loading ? (
@@ -62,26 +62,26 @@ const Saturation = ({ match }) => {
         <Card className="mb-3 border-dark">
           <Card.Header>
             <Nav variant="pills">
-              <LinkContainer to={`/admin/patientlist/${patient._id}`}>
+              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}`}>
                 <Nav.Link eventKey="personal informations">
                   Personal Informations
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/bloodpressure`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/bloodpressure`}
               >
                 <Nav.Link eventKey="bloodpressure">Blood Pressure</Nav.Link>
               </LinkContainer>
-              <LinkContainer to={`/admin/patientlist/${patient._id}/heartrate`}>
+              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}>
                 <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/bloodsugar`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/bloodsugar`}
               >
                 <Nav.Link eventKey="bloodsugar">Blood Sugar</Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/saturation`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/saturation`}
               >
                 <Nav.Link>Saturation</Nav.Link>
               </LinkContainer>
@@ -123,7 +123,7 @@ const Saturation = ({ match }) => {
                 Submit
               </Button>
             </Form>
-            {patient.saturation.length === 0 ? (
+            {patientwithdata.patient.saturation.length === 0 ? (
               <Message>No measurement</Message>
             ) : (
               <Table striped bordered hover responsive className="table-sm">
@@ -135,7 +135,7 @@ const Saturation = ({ match }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {patient.saturation.reverse().map((sat) => (
+                  {patientwithdata.patient.saturation.reverse().map((sat) => (
                     <tr key={sat._id}>
                       <td>{sat._id}</td>
                       <td>
@@ -152,6 +152,25 @@ const Saturation = ({ match }) => {
                       <td>{sat.time}</td>
                     </tr>
                   ))}
+                   {patientwithdata.data.map((datas) =>
+                          datas.message.saturation.map((sat) => (
+                            <tr key={sat._id}>
+                              <td>{datas.message.id}</td>
+                              <td>
+                        {sat.sat >= 95 ? (
+                          <span style={{ color: "green" }}>
+                            {sat.sat}% - the measurement is normal{" "}
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {sat.sat}% - the measurement is below normal
+                          </span>
+                        )}
+                      </td>
+                      <td>{sat.time}</td>
+                            </tr>
+                          ))
+                        )}
                 </tbody>
               </Table>
             )}

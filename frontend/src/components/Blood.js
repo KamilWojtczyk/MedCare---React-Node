@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Card, Col, Row, Nav, Table, Form, Button } from "react-bootstrap";
 import {
-  listPatientDetails,
+  listPatientWithDataDetails,
   createPatientBloodpressure,
 } from "../actions/patientActions";
-import { listData } from "../actions/dataActions";
 import Message from "../components/Message";
 import Loader from "../components/Loader";
 import { PATIENT_CREATE_BLOODPRESSURE_RESET } from "../constants/patientConstants";
@@ -19,11 +18,8 @@ const Blood = ({ match }) => {
 
   const dispatch = useDispatch();
 
-  const patientDetails = useSelector((state) => state.patientDetails);
-  const { loading, error, patient } = patientDetails;
-
-  const dataList = useSelector((state) => state.dataList);
-  const { datas } = dataList;
+  const patient = useSelector((state) => state.patientDetailsWithData);
+  const { loading, error, patientwithdata } = patient;
 
   const patientBloodpressureCreate = useSelector(
     (state) => state.patientBloodpressureCreate
@@ -40,8 +36,7 @@ const Blood = ({ match }) => {
       setTime("");
       dispatch({ type: PATIENT_CREATE_BLOODPRESSURE_RESET });
     }
-    dispatch(listData());
-    dispatch(listPatientDetails(match.params.id));
+    dispatch(listPatientWithDataDetails(match.params.id));
   }, [dispatch, match, successPatientBloodpressure]);
 
   const submitHandler = (e) => {
@@ -59,7 +54,7 @@ const Blood = ({ match }) => {
           </Link>
         </Col>
         <Col className="text-right">
-          <h5>Patient created by: {patient.nameUser}</h5>
+          <h5>Patient created by: {patientwithdata.patient.nameUser}</h5>
         </Col>
       </Row>
       {loading ? (
@@ -70,26 +65,26 @@ const Blood = ({ match }) => {
         <Card className="mb-3 border-dark">
           <Card.Header>
             <Nav variant="pills">
-              <LinkContainer to={`/admin/patientlist/${patient._id}`}>
+              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}`}>
                 <Nav.Link eventKey="personal informations">
                   Personal Informations
                 </Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/bloodpressure`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/bloodpressure`}
               >
                 <Nav.Link>Blood Pressure</Nav.Link>
               </LinkContainer>
-              <LinkContainer to={`/admin/patientlist/${patient._id}/heartrate`}>
+              <LinkContainer to={`/admin/patientlist/${patientwithdata.patient._id}/heartrate`}>
                 <Nav.Link eventKey="heartrate">Heart Rate</Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/bloodsugar`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/bloodsugar`}
               >
                 <Nav.Link eventKey="bloodsugar">Blood Sugar</Nav.Link>
               </LinkContainer>
               <LinkContainer
-                to={`/admin/patientlist/${patient._id}/saturation`}
+                to={`/admin/patientlist/${patientwithdata.patient._id}/saturation`}
               >
                 <Nav.Link eventKey="saturation">Saturation</Nav.Link>
               </LinkContainer>
@@ -143,7 +138,7 @@ const Blood = ({ match }) => {
                 Submit
               </Button>
             </Form>
-            {patient.bloodpressure.length === 0 ? (
+            {patientwithdata.patient.bloodpressure.length === 0 ? (
               <Message>No measurement</Message>
             ) : (
               <Table striped bordered hover responsive className="table-sm">
@@ -155,7 +150,7 @@ const Blood = ({ match }) => {
                   </tr>
                 </thead>
                 <tbody>
-                  {patient.bloodpressure.reverse().map((pressure) => (
+                  {patientwithdata.patient.bloodpressure.reverse().map((pressure) => (
                     <tr key={pressure._id}>
                       <td>{pressure._id}</td>
                       <td>
@@ -177,25 +172,30 @@ const Blood = ({ match }) => {
                       <td>{pressure.time}</td>
                     </tr>
                   ))}
-                  {datas.map((datas) => {
-                    datas.message.id === patient._id ? (
-                      <span>
-                        {datas.map((datas) =>
+                  {patientwithdata.data.map((datas) =>
                           datas.message.bloodpressure.map((pressure) => (
                             <tr key={pressure._id}>
-                              <td>{pressure._id}</td>
+                              <td>{datas.message.id}</td>
                               <td>
-                                {pressure.systolic}/{pressure.diastolic}
-                              </td>
+                        {pressure.diastolic >= 120 &&
+                        pressure.diastolic <= 130 &&
+                        pressure.systolic >= 80 &&
+                        pressure.systolic <= 85 ? (
+                          <span style={{ color: "green" }}>
+                            {pressure.diastolic}/{pressure.systolic}mmHg - the
+                            measurement is normal
+                          </span>
+                        ) : (
+                          <span style={{ color: "red" }}>
+                            {pressure.diastolic}/{pressure.systolic}mmHg - the
+                            measurement is below normal
+                          </span>
+                        )}
+                      </td>
                               <td>{pressure.time}</td>
                             </tr>
                           ))
                         )}
-                      </span>
-                    ) : (
-                      <span></span>
-                    );
-                  })}
                 </tbody>
               </Table>
             )}
