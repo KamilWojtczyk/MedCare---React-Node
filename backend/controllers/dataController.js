@@ -1,16 +1,13 @@
 import asyncHandler from "express-async-handler";
-import AllData from "../models/dataModel.js";
+import Data from "../models/dataModel.js";
 
 // @desc Get all data
 // @route Get /api/data
 // @access Private
 
-
 const getData = asyncHandler(async (req, res) => {
-  const alldata = await AllData.find({});
-  res.json(alldata);
+  const datas = await Data.find({});
+  res.json(datas);
 });
 
-export {
-  getData
-};
+export { getData };

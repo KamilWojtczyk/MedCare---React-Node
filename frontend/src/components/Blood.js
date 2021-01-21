@@ -23,7 +23,7 @@ const Blood = ({ match }) => {
   const { loading, error, patient } = patientDetails;
 
   const dataList = useSelector((state) => state.dataList);
-  const { alldata } = dataList;
+  const { datas } = dataList;
 
   const patientBloodpressureCreate = useSelector(
     (state) => state.patientBloodpressureCreate
@@ -151,7 +151,7 @@ const Blood = ({ match }) => {
                   <tr>
                     <th>ID</th>
                     <th>Measure</th>
-                    <th>{alldata}</th>
+                    <th>Date</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -177,6 +177,25 @@ const Blood = ({ match }) => {
                       <td>{pressure.time}</td>
                     </tr>
                   ))}
+                  {datas.map((datas) => {
+                    datas.message.id === patient._id ? (
+                      <span>
+                        {datas.map((datas) =>
+                          datas.message.bloodpressure.map((pressure) => (
+                            <tr key={pressure._id}>
+                              <td>{pressure._id}</td>
+                              <td>
+                                {pressure.systolic}/{pressure.diastolic}
+                              </td>
+                              <td>{pressure.time}</td>
+                            </tr>
+                          ))
+                        )}
+                      </span>
+                    ) : (
+                      <span></span>
+                    );
+                  })}
                 </tbody>
               </Table>
             )}
